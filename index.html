@@ -33,9 +33,8 @@
       border-radius: 20px;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
       padding: 40px 36px;
-      max-width: 640px;
+      max-width: 680px;
       width: 100%;
-      transition: opacity 0.2s ease;
     }
 
     /* ===== Header ===== */
@@ -52,10 +51,16 @@
     }
 
     .quiz-header p {
-      font-size: 15px;
+      font-size: 14px;
       color: #64748b;
       margin-top: 6px;
       font-weight: 400;
+    }
+    .quiz-header p code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
     }
 
     /* ===== Progress Section ===== */
@@ -143,6 +148,7 @@
       transition: all 0.15s ease;
       -webkit-tap-highlight-color: transparent;
       line-height: 1.4;
+      user-select: none;
     }
 
     .option-btn:hover:not(.disabled) {
@@ -383,19 +389,179 @@
     .results-screen .encouragement {
       font-size: 15px;
       color: #64748b;
-      margin-bottom: 32px;
-      max-width: 400px;
+      margin-bottom: 28px;
+      max-width: 440px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.6;
     }
 
     .results-screen .restart-btn {
-      margin-top: 4px;
+      margin-bottom: 4px;
     }
 
-    .results-screen .btn-secondary {
+    /* ===== Review Section ===== */
+    .review-section {
+      text-align: left;
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid #e2e8f0;
+      display: none;
+    }
+
+    .review-section.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .review-section .review-heading {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .review-section .review-sub {
+      text-align: center;
+      font-size: 14px;
       color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .review-section .review-heading .badge-correct {
+      color: #16a34a;
+    }
+    .review-section .review-heading .badge-incorrect {
+      color: #dc2626;
+    }
+
+    .review-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+
+    .review-card .review-q-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .review-card .review-q-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .review-card .review-q-text code {
+      background: #e2e8f0;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .review-card .review-status-badge {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .review-card .review-status-badge.correct-badge {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .review-card .review-status-badge.incorrect-badge {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .review-options {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .review-option {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1.5px solid transparent;
+      background: #ffffff;
+      gap: 10px;
+    }
+
+    .review-option .opt-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .review-option .opt-text {
+      flex: 1;
+    }
+    .review-option .opt-text code {
+      background: #f1f5f9;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .review-option .opt-label {
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      color: #64748b;
+      flex-shrink: 0;
+    }
+
+    /* Review option states */
+    .review-option.is-correct-answer {
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+    }
+    .review-option.is-correct-answer .opt-letter {
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .review-option.is-user-wrong {
+      border-color: #fecaca;
+      background: #fef2f2;
+    }
+    .review-option.is-user-wrong .opt-letter {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    .review-option.is-user-correct {
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+    }
+    .review-option.is-user-correct .opt-letter {
+      background: #16a34a;
+      color: #fff;
     }
 
     /* ===== Question Screen ===== */
@@ -423,7 +589,7 @@
       }
 
       .quiz-header p {
-        font-size: 14px;
+        font-size: 13px;
       }
 
       .question-text {
@@ -452,6 +618,17 @@
         height: 100px;
         font-size: 34px;
       }
+
+      .review-card {
+        padding: 14px 14px;
+      }
+      .review-card .review-q-text {
+        font-size: 14px;
+      }
+      .review-option {
+        font-size: 13px;
+        padding: 7px 10px;
+      }
     }
 
     @media (max-width: 380px) {
@@ -465,6 +642,11 @@
 
       .actions .btn {
         width: 100%;
+      }
+
+      .review-card .review-q-header {
+        flex-direction: column;
+        gap: 6px;
       }
     }
   </style>
@@ -481,7 +663,7 @@
     <!-- ===== PROGRESS ===== -->
     <div class="progress-section">
       <div class="progress-text">
-        <span class="label">Question <span id="current-q-num">1</span> of <span id="total-q-count">8</span></span>
+        <span class="label">Question <span id="current-q-num">1</span> of <span id="total-q-count">25</span></span>
         <span class="score-so-far" id="score-so-far">0 correct</span>
       </div>
       <div class="progress-bar-track">
@@ -506,13 +688,20 @@
       </div>
     </div>
 
-    <!-- ===== RESULTS SCREEN ===== -->
+    <!-- ===== RESULTS + REVIEW SCREEN ===== -->
     <div class="results-screen" id="results-screen">
-      <div class="score-circle" id="score-circle">6/8</div>
+      <div class="score-circle" id="score-circle">0/25</div>
       <h2 id="results-heading">Great job!</h2>
-      <p class="score-text" id="results-score-text">You got 6 out of 8 correct.</p>
+      <p class="score-text" id="results-score-text">You got 0 out of 25 correct.</p>
       <p class="encouragement" id="results-message">Keep practising — you're getting there!</p>
       <button class="btn btn-secondary restart-btn" id="restart-btn">↻  Try Again</button>
+
+      <!-- Review Section -->
+      <div class="review-section" id="review-section">
+        <div class="review-heading" id="review-heading">Review Your Answers</div>
+        <p class="review-sub">Tap any question to expand — see what you picked and what's correct.</p>
+        <div id="review-list"></div>
+      </div>
     </div>
   </div>
 
@@ -521,9 +710,10 @@
       'use strict';
 
       // ============================================================
-      //  QUESTIONS
+      //  QUESTIONS  (25 total — all within taught topics)
       // ============================================================
-      let questions = [
+      var questions = [
+        // --- Datatypes ---
         {
           question: 'Which of the following is a <strong>float</strong> in Python?',
           options: ['"3.14"', '3.14', '3', "'3.14'"],
@@ -531,11 +721,63 @@
           explanation: '"3.14" and \'3.14\' are strings (str). 3 is an int. 3.14 is a float because it has a decimal point.'
         },
         {
+          question: 'Which data type would store a whole number like <strong>42</strong>?',
+          options: ['float', 'str', 'int', 'bool'],
+          correct: 2,
+          explanation: '<code>int</code> (integer) is used for whole numbers. <code>float</code> is for decimal numbers, and <code>str</code> is for text.'
+        },
+        {
+          question: 'What type of value is <code>"Python"</code>?',
+          options: ['float', 'int', 'str', 'list'],
+          correct: 2,
+          explanation: '<code>"Python"</code> is in quotes, so it is a string (<code>str</code>).'
+        },
+        {
+          question: 'Which of the following is an <strong>int</strong>?',
+          options: ['3.14', '"42"', '42', "'42'"],
+          correct: 2,
+          explanation: '42 has no decimal point and no quotes, so it is an <code>int</code>. The others are either <code>float</code> or <code>str</code>.'
+        },
+        {
+          question: 'The value <code>3.0</code> is what data type?',
+          options: ['int', 'float', 'str', 'bool'],
+          correct: 1,
+          explanation: 'Even though <code>3.0</code> equals 3, the decimal point makes it a <code>float</code>, not an <code>int</code>.'
+        },
+        {
+          question: 'Which data type is used to store <strong>text</strong> in Python?',
+          options: ['int', 'float', 'str', 'bool'],
+          correct: 2,
+          explanation: '<code>str</code> (short for string) is the data type for text in Python.'
+        },
+
+        // --- type() function ---
+        {
           question: 'What will <code>print(type(10))</code> output?',
           options: ["<code>&lt;class 'int'&gt;</code>", '<code>int</code>', '<code>10</code>', "<code>&lt;class 'float'&gt;</code>"],
           correct: 0,
           explanation: '<code>type(10)</code> returns <code>&lt;class \'int\'&gt;</code>, and <code>print()</code> displays it.'
         },
+        {
+          question: 'What does <code>type(3.0)</code> return?',
+          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", 'Error'],
+          correct: 1,
+          explanation: '<code>3.0</code> is a float, so <code>type(3.0)</code> returns <code>&lt;class \'float\'&gt;</code>.'
+        },
+        {
+          question: 'What does <code>type("42")</code> return?',
+          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", '<code>42</code>'],
+          correct: 2,
+          explanation: '<code>"42"</code> is in quotes, so it is a string. <code>type("42")</code> returns <code>&lt;class \'str\'&gt;</code>.'
+        },
+        {
+          question: 'What does <code>type(2.5)</code> return?',
+          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", '<code>2.5</code>'],
+          correct: 1,
+          explanation: '<code>2.5</code> has a decimal point so it is a float. <code>type(2.5)</code> returns <code>&lt;class \'float\'&gt;</code>.'
+        },
+
+        // --- Conversion (int, float, str) ---
         {
           question: 'What is the result of <code>float(5)</code>?',
           options: ['5', '5.0', "'5'", 'Error'],
@@ -549,73 +791,135 @@
           explanation: '<code>str()</code> converts a value to a string. <code>string()</code> does not exist in Python.'
         },
         {
+          question: 'Which of the following converts the number <strong>7</strong> to the string <strong>"7"</strong>?',
+          options: ['<code>int(7)</code>', '<code>float(7)</code>', '<code>str(7)</code>', '<code>type(7)</code>'],
+          correct: 2,
+          explanation: '<code>str(7)</code> converts the integer 7 into the string "7".'
+        },
+        {
+          question: 'What is the result of <code>int(7.9)</code>?',
+          options: ['7', '7.9', '8', 'Error'],
+          correct: 0,
+          explanation: '<code>int(7.9)</code> removes the decimal part and returns the integer 7. It does <strong>not</strong> round up.'
+        },
+        {
+          question: 'What is the result of <code>float(8)</code>?',
+          options: ['8', '8.0', "'8'", 'Error'],
+          correct: 1,
+          explanation: '<code>float(8)</code> converts the integer 8 into the float 8.0.'
+        },
+        {
+          question: 'What is the result of <code>str(99)</code>?',
+          options: ['99', '"99"', "'99'", '99.0'],
+          correct: 1,
+          explanation: '<code>str(99)</code> converts the integer 99 into the string <code>"99"</code>. The quotes show it is now a string, not a number.'
+        },
+        {
+          question: 'What is the result of <code>int(5.0)</code>?',
+          options: ['5', '5.0', "'5'", 'Error'],
+          correct: 0,
+          explanation: '<code>int(5.0)</code> converts the float 5.0 into the integer 5 by removing the decimal part.'
+        },
+
+        // --- Basic calculations ---
+        {
           question: 'What does <code>print(3 + 2 * 4)</code> output?',
           options: ['20', '11', '14', '23'],
           correct: 1,
           explanation: 'Multiplication comes first: <code>2 * 4 = 8</code>, then <code>3 + 8 = 11</code>.'
         },
         {
-          question: 'Which data type would store a whole number like <strong>42</strong>?',
-          options: ['float', 'str', 'int', 'bool'],
-          correct: 2,
-          explanation: '<code>int</code> (integer) is used for whole numbers. <code>float</code> is for decimal numbers, and <code>str</code> is for text.'
-        },
-        {
-          question: 'What does <code>type(3.0)</code> return?',
-          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", 'Error'],
+          question: 'What is the result of <code>4 * 5</code>?',
+          options: ['9', '20', '45', '54'],
           correct: 1,
-          explanation: '<code>3.0</code> is a float because it has a decimal point, so <code>type(3.0)</code> returns <code>&lt;class \'float\'&gt;</code>.'
+          explanation: '<code>4 * 5</code> equals 20. The <code>*</code> operator is used for multiplication.'
         },
         {
-          question: 'Which of the following converts the number <strong>7</strong> to the string <strong>"7"</strong>?',
-          options: ['<code>int(7)</code>', '<code>float(7)</code>', '<code>str(7)</code>', '<code>type(7)</code>'],
-          correct: 2,
-          explanation: '<code>str(7)</code> converts the integer 7 into the string "7".'
+          question: 'What is the result of <code>15 - 7</code>?',
+          options: ['7', '8', '9', '22'],
+          correct: 1,
+          explanation: '<code>15 - 7</code> equals 8. The <code>-</code> operator subtracts numbers.'
+        },
+        {
+          question: 'What does <code>10 + 3 * 2</code> equal?',
+          options: ['26', '16', '13', '60'],
+          correct: 1,
+          explanation: 'Multiplication first: <code>3 * 2 = 6</code>, then <code>10 + 6 = 16</code>.'
+        },
+        {
+          question: 'What does <code>(10 + 3) * 2</code> equal?',
+          options: ['26', '16', '23', '60'],
+          correct: 0,
+          explanation: 'Parentheses come first: <code>(10 + 3) = 13</code>, then <code>13 * 2 = 26</code>.'
+        },
+        {
+          question: 'What is the result of <code>9 / 2</code> in Python?',
+          options: ['4', '4.5', '4 R 1', 'Error'],
+          correct: 1,
+          explanation: 'In Python, <code>/</code> always returns a float. <code>9 / 2 = 4.5</code>.'
+        },
+
+        // --- print() function ---
+        {
+          question: 'What does <code>print("Hello")</code> display?',
+          options: ['"Hello"', 'Hello', 'print("Hello")', 'Error'],
+          correct: 1,
+          explanation: '<code>print("Hello")</code> displays <code>Hello</code> (without quotes) to the screen.'
+        },
+        {
+          question: 'What does <code>print(2 + 3)</code> output?',
+          options: ['2 + 3', '5', '"5"', '23'],
+          correct: 1,
+          explanation: 'Python first calculates <code>2 + 3 = 5</code>, then <code>print()</code> displays <code>5</code>.'
         }
       ];
 
-      const totalQuestions = questions.length;
-      const LABELS = ['A', 'B', 'C', 'D'];
+      var totalQuestions = questions.length;
+      var LABELS = ['A', 'B', 'C', 'D'];
 
       // ============================================================
       //  STATE
       // ============================================================
-      let currentIndex = 0;
-      let score = 0;
-      let answered = false;
-      let quizEnded = false;
+      var currentIndex = 0;
+      var score = 0;
+      var answered = false;
+      var quizEnded = false;
 
-      // Track which questions were answered correctly (for progress)
-      let results = new Array(totalQuestions).fill(null); // true = correct, false = incorrect, null = unanswered
+      // Store detailed answer data for each question.
+      // null = unanswered, otherwise:
+      //   { selectedIndex, correctIndex, isCorrect, question, options, explanation }
+      var results = new Array(totalQuestions).fill(null);
 
       // DOM references
-      const questionScreen = document.getElementById('question-screen');
-      const resultsScreen = document.getElementById('results-screen');
-      const questionNumberEl = document.getElementById('question-number');
-      const questionTextEl = document.getElementById('question-text');
-      const optionsListEl = document.getElementById('options-list');
-      const feedbackMessageEl = document.getElementById('feedback-message');
-      const errorMessageEl = document.getElementById('error-message');
-      const nextBtn = document.getElementById('next-btn');
-      const restartBtn = document.getElementById('restart-btn');
-      const currentQNumEl = document.getElementById('current-q-num');
-      const totalQCountEl = document.getElementById('total-q-count');
-      const progressFillEl = document.getElementById('progress-fill');
-      const scoreSoFarEl = document.getElementById('score-so-far');
+      var questionScreen = document.getElementById('question-screen');
+      var resultsScreen = document.getElementById('results-screen');
+      var questionNumberEl = document.getElementById('question-number');
+      var questionTextEl = document.getElementById('question-text');
+      var optionsListEl = document.getElementById('options-list');
+      var feedbackMessageEl = document.getElementById('feedback-message');
+      var errorMessageEl = document.getElementById('error-message');
+      var nextBtn = document.getElementById('next-btn');
+      var restartBtn = document.getElementById('restart-btn');
+      var currentQNumEl = document.getElementById('current-q-num');
+      var totalQCountEl = document.getElementById('total-q-count');
+      var progressFillEl = document.getElementById('progress-fill');
+      var scoreSoFarEl = document.getElementById('score-so-far');
+      var reviewSection = document.getElementById('review-section');
+      var reviewList = document.getElementById('review-list');
 
       // ============================================================
       //  RENDER
       // ============================================================
       function renderQuestion() {
-        const q = questions[currentIndex];
+        var q = questions[currentIndex];
         questionNumberEl.textContent = 'Question ' + (currentIndex + 1);
         questionTextEl.innerHTML = q.question;
 
         // Build options
         optionsListEl.innerHTML = '';
         q.options.forEach(function (opt, idx) {
-          const li = document.createElement('li');
-          const btn = document.createElement('button');
+          var li = document.createElement('li');
+          var btn = document.createElement('button');
           btn.className = 'option-btn';
           btn.setAttribute('data-index', idx);
           btn.innerHTML =
@@ -650,7 +954,10 @@
         progressFillEl.style.width = (currentIndex / totalQuestions) * 100 + '%';
 
         // Count correct so far
-        const correctCount = results.filter(function (v) { return v === true; }).length;
+        var correctCount = 0;
+        for (var i = 0; i < results.length; i++) {
+          if (results[i] !== null && results[i].isCorrect) correctCount++;
+        }
         scoreSoFarEl.textContent = correctCount + ' correct';
       }
 
@@ -660,17 +967,17 @@
       function onOptionClick(e) {
         if (answered) return;
 
-        const btn = e.currentTarget;
-        const idx = parseInt(btn.getAttribute('data-index'), 10);
-        const q = questions[currentIndex];
-        const isCorrect = idx === q.correct;
+        var btn = e.currentTarget;
+        var idx = parseInt(btn.getAttribute('data-index'), 10);
+        var q = questions[currentIndex];
+        var isCorrect = idx === q.correct;
 
         // Mark as answered
         answered = true;
         btn.classList.add('selected');
 
         // Disable all option buttons
-        const allOptions = optionsListEl.querySelectorAll('.option-btn');
+        var allOptions = optionsListEl.querySelectorAll('.option-btn');
         allOptions.forEach(function (opt) {
           opt.classList.add('disabled');
         });
@@ -679,33 +986,36 @@
         allOptions[q.correct].classList.add('correct');
         if (!isCorrect) {
           btn.classList.add('incorrect');
-          // Keep selected on the wrong one too
         }
 
         // Add feedback icons
         allOptions.forEach(function (opt, i) {
-          const iconSpan = document.createElement('span');
+          var iconSpan = document.createElement('span');
           iconSpan.className = 'feedback-icon';
           if (i === q.correct) {
             iconSpan.textContent = '✓';
           } else if (i === idx && !isCorrect) {
             iconSpan.textContent = '✗';
           }
-          // Only add icon if this option should have one
           if (iconSpan.textContent) {
-            // Remove any existing icon first
-            const existing = opt.querySelector('.feedback-icon');
+            var existing = opt.querySelector('.feedback-icon');
             if (existing) existing.remove();
             opt.appendChild(iconSpan);
           }
         });
 
-        // Update score tracking
+        // Store detailed result
+        results[currentIndex] = {
+          selectedIndex: idx,
+          correctIndex: q.correct,
+          isCorrect: isCorrect,
+          question: q.question,
+          options: q.options.slice(),
+          explanation: q.explanation
+        };
+
         if (isCorrect) {
-          results[currentIndex] = true;
           score++;
-        } else {
-          results[currentIndex] = false;
         }
 
         // Show feedback message
@@ -749,12 +1059,15 @@
         questionScreen.classList.add('hidden');
         resultsScreen.classList.add('show');
 
-        const correctCount = results.filter(function (v) { return v === true; }).length;
-        const total = totalQuestions;
-        const pct = correctCount / total;
+        var correctCount = 0;
+        for (var i = 0; i < results.length; i++) {
+          if (results[i] !== null && results[i].isCorrect) correctCount++;
+        }
+        var total = totalQuestions;
+        var pct = correctCount / total;
 
         // Score circle
-        const circle = document.getElementById('score-circle');
+        var circle = document.getElementById('score-circle');
         circle.textContent = correctCount + '/' + total;
         circle.className = 'score-circle';
         if (pct === 1) {
@@ -776,6 +1089,9 @@
 
         // Encouragement
         document.getElementById('results-message').textContent = encouragementForScore(pct);
+
+        // Build review
+        renderReview(correctCount, total);
       }
 
       function headingForScore(pct) {
@@ -790,12 +1106,75 @@
           return 'You answered every question correctly. You really know your Python basics! Ready for the next topic?';
         }
         if (pct >= 0.75) {
-          return 'You have a solid grasp of Python fundamentals. Review the ones you missed and try again to ace it!';
+          return 'You have a solid grasp of Python fundamentals. Review the ones you missed below and try again to ace it!';
         }
         if (pct >= 0.5) {
-          return 'You\'re on the right track! A bit more practice with the topics you found tricky and you\'ll nail it.';
+          return 'You\'re on the right track! Take a look at the questions you got wrong below, practise a bit more, and try again.';
         }
-        return 'Don\'t worry — Python takes practice! Go over datatypes, conversions, and operator precedence, then give it another shot.';
+        return 'Don\'t worry — Python takes practice! Go over each question below, review datatypes, conversions, and operator precedence, then give it another shot.';
+      }
+
+      // ============================================================
+      //  REVIEW
+      // ============================================================
+      function renderReview(correctCount, total) {
+        reviewSection.classList.add('show');
+
+        var html = '';
+
+        for (var i = 0; i < results.length; i++) {
+          var r = results[i];
+          if (r === null) continue;
+
+          var qNum = i + 1;
+          var isCorrect = r.isCorrect;
+          var statusClass = isCorrect ? 'correct-badge' : 'incorrect-badge';
+          var statusText = isCorrect ? '✓ Correct' : '✗ Incorrect';
+
+          html += '<div class="review-card">';
+          html += '<div class="review-q-header">';
+          html += '  <div class="review-q-text">Q' + qNum + '. ' + r.question + '</div>';
+          html += '  <span class="review-status-badge ' + statusClass + '">' + statusText + '</span>';
+          html += '</div>';
+          html += '<ul class="review-options">';
+
+          for (var j = 0; j < r.options.length; j++) {
+            var opt = r.options[j];
+            var optClass = '';
+            var label = '';
+
+            if (j === r.correctIndex && j === r.selectedIndex) {
+              // User picked the correct answer
+              optClass = 'is-user-correct';
+              label = '✓ Your answer';
+            } else if (j === r.correctIndex) {
+              // This is the correct option but user didn't pick it
+              optClass = 'is-correct-answer';
+              label = '✓ Correct answer';
+            } else if (j === r.selectedIndex) {
+              // User picked this and it's wrong
+              optClass = 'is-user-wrong';
+              label = '✗ Your answer';
+            }
+
+            html += '<li class="review-option ' + optClass + '">';
+            html += '  <span class="opt-letter">' + LABELS[j] + '</span>';
+            html += '  <span class="opt-text">' + opt + '</span>';
+            if (label) {
+              html += '  <span class="opt-label">' + label + '</span>';
+            }
+            html += '</li>';
+          }
+
+          html += '</ul>';
+          html += '</div>';
+        }
+
+        reviewList.innerHTML = html;
+
+        // Update review heading with summary
+        var heading = document.getElementById('review-heading');
+        heading.innerHTML = 'Review Your Answers — <span class="badge-correct">' + correctCount + ' correct</span> / <span class="badge-incorrect">' + (total - correctCount) + ' incorrect</span>';
       }
 
       // ============================================================
@@ -809,6 +1188,8 @@
         results = new Array(totalQuestions).fill(null);
 
         resultsScreen.classList.remove('show');
+        reviewSection.classList.remove('show');
+        reviewList.innerHTML = '';
         questionScreen.classList.remove('hidden');
         errorMessageEl.classList.remove('show');
 
@@ -823,9 +1204,9 @@
         if (quizEnded) return;
 
         // Number keys 1-4 for options
-        const keyNum = parseInt(e.key, 10);
+        var keyNum = parseInt(e.key, 10);
         if (keyNum >= 1 && keyNum <= 4 && !answered) {
-          const allOptions = optionsListEl.querySelectorAll('.option-btn');
+          var allOptions = optionsListEl.querySelectorAll('.option-btn');
           if (allOptions[keyNum - 1]) {
             allOptions[keyNum - 1].click();
           }
@@ -834,7 +1215,6 @@
 
         // Enter or Space for next
         if (e.key === 'Enter' || e.key === ' ') {
-          // Only trigger if not clicking on an option button
           if (e.target.tagName !== 'BUTTON' || !e.target.classList.contains('option-btn')) {
             e.preventDefault();
             nextBtn.click();
