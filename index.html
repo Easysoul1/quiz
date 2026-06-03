@@ -102,6 +102,120 @@
       transition: width 0.4s ease;
     }
 
+    /* ===== Timer ===== */
+    .timer-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timer-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .timer-display {
+      font-weight: 700;
+      font-size: 17px;
+      color: #0d9488;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+      transition: color 0.3s ease;
+    }
+
+    .timer-display.timer-warning {
+      color: #d97706;
+    }
+
+    .timer-display.timer-critical {
+      color: #dc2626;
+      animation: timerPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes timerPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ===== Code Editor ===== */
+    .code-editor-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .code-editor-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .code-editor-header .code-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-editor-header .lang-badge {
+      background: #0d9488;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .code-editor {
+      width: 100%;
+      min-height: 130px;
+      padding: 16px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      background: #1e293b;
+      border: 2px solid #334155;
+      border-radius: 10px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s ease;
+      tab-size: 4;
+      box-sizing: border-box;
+    }
+
+    .code-editor:focus {
+      border-color: #0d9488;
+    }
+
+    .code-editor::placeholder {
+      color: #64748b;
+    }
+
+    .code-editor:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    .code-editor.saved {
+      border-color: #0d9488;
+    }
+
+    .code-editor-saved-indicator {
+      font-size: 13px;
+      color: #0d9488;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .code-editor-saved-indicator.show {
+      display: flex;
+    }
+
     /* ===== Question ===== */
     .question-area {
       margin-bottom: 28px;
@@ -657,13 +771,17 @@
     <!-- ===== HEADER ===== -->
     <div class="quiz-header">
       <h1>Python Basics Quiz</h1>
-      <p>Test your knowledge on datatypes, calculations, <code>print()</code>, <code>type()</code>, <code>int</code>, <code>float</code>, and <code>str</code>.</p>
+      <p>int, float, str, bool, variables, comments, keywords, <code>%</code>, <code>**</code>, and more. 15-minute timer!</p>
     </div>
 
     <!-- ===== PROGRESS ===== -->
     <div class="progress-section">
       <div class="progress-text">
-        <span class="label">Question <span id="current-q-num">1</span> of <span id="total-q-count">25</span></span>
+        <span class="label">Question <span id="current-q-num">1</span> of <span id="total-q-count">20</span></span>
+        <div class="timer-container">
+          <span class="timer-icon">⏱</span>
+          <span class="timer-display" id="timer-display">15:00</span>
+        </div>
         <span class="score-so-far" id="score-so-far">0 correct</span>
       </div>
       <div class="progress-bar-track">
@@ -680,6 +798,16 @@
 
       <ul class="options-list" id="options-list"></ul>
 
+      <!-- Code editor for coding questions (hidden by default) -->
+      <div class="code-editor-wrapper" id="code-editor-wrapper" style="display:none;">
+        <div class="code-editor-header">
+          <span class="code-label">Your Python Code</span>
+          <span class="lang-badge">Python</span>
+        </div>
+        <textarea class="code-editor" id="code-editor" placeholder="# Write your Python code here..." spellcheck="false"></textarea>
+        <div class="code-editor-saved-indicator" id="code-editor-saved">✓ Answer saved</div>
+      </div>
+
       <div class="feedback-message" id="feedback-message"></div>
 
       <div class="actions">
@@ -690,9 +818,9 @@
 
     <!-- ===== RESULTS + REVIEW SCREEN ===== -->
     <div class="results-screen" id="results-screen">
-      <div class="score-circle" id="score-circle">0/25</div>
+      <div class="score-circle" id="score-circle">0/20</div>
       <h2 id="results-heading">Great job!</h2>
-      <p class="score-text" id="results-score-text">You got 0 out of 25 correct.</p>
+      <p class="score-text" id="results-score-text">You got 0 out of 20 correct.</p>
       <p class="encouragement" id="results-message">Keep practising — you're getting there!</p>
       <button class="btn btn-secondary restart-btn" id="restart-btn">↻  Try Again</button>
 
@@ -710,167 +838,171 @@
       'use strict';
 
       // ============================================================
-      //  QUESTIONS  (25 total — all within taught topics)
+      //  QUESTIONS  (20 total — int, float, str, bool, variables,
+      //               comments, keywords, modulus, exponent, coding)
       // ============================================================
       var questions = [
-        // --- Datatypes ---
+        // -- Q1 | int --
         {
+          type: 'mcq',
+          question: 'Which of the following is an <strong>integer (int)</strong> in Python?',
+          options: ['"42"', '3.14', '42', 'True'],
+          correct: 2,
+          explanation: '42 has no decimal point and no quotes, so it is an <code>int</code>. "42" is a string, 3.14 is a float.'
+        },
+        // -- Q2 | int --
+        {
+          type: 'mcq',
+          question: 'What is the result of <code>int(7.9)</code> in Python?',
+          options: ['7', '8', '7.9', 'Error'],
+          correct: 0,
+          explanation: '<code>int(7.9)</code> <strong>truncates</strong> the decimal part and returns 7. It does NOT round up to 8.'
+        },
+        // -- Q3 | float --
+        {
+          type: 'mcq',
           question: 'Which of the following is a <strong>float</strong> in Python?',
-          options: ['"3.14"', '3.14', '3', "'3.14'"],
-          correct: 1,
-          explanation: '"3.14" and \'3.14\' are strings (str). 3 is an int. 3.14 is a float because it has a decimal point.'
-        },
-        {
-          question: 'Which data type would store a whole number like <strong>42</strong>?',
-          options: ['float', 'str', 'int', 'bool'],
+          options: ['5', '"5.0"', '5.0', 'True'],
           correct: 2,
-          explanation: '<code>int</code> (integer) is used for whole numbers. <code>float</code> is for decimal numbers, and <code>str</code> is for text.'
+          explanation: '5.0 has a decimal point, making it a <code>float</code>. 5 is an <code>int</code>, "5.0" and "True" are strings.'
         },
+        // -- Q4 | float --
         {
-          question: 'What type of value is <code>"Python"</code>?',
-          options: ['float', 'int', 'str', 'list'],
-          correct: 2,
-          explanation: '<code>"Python"</code> is in quotes, so it is a string (<code>str</code>).'
-        },
-        {
-          question: 'Which of the following is an <strong>int</strong>?',
-          options: ['3.14', '"42"', '42', "'42'"],
-          correct: 2,
-          explanation: '42 has no decimal point and no quotes, so it is an <code>int</code>. The others are either <code>float</code> or <code>str</code>.'
-        },
-        {
-          question: 'The value <code>3.0</code> is what data type?',
-          options: ['int', 'float', 'str', 'bool'],
-          correct: 1,
-          explanation: 'Even though <code>3.0</code> equals 3, the decimal point makes it a <code>float</code>, not an <code>int</code>.'
-        },
-        {
-          question: 'Which data type is used to store <strong>text</strong> in Python?',
-          options: ['int', 'float', 'str', 'bool'],
-          correct: 2,
-          explanation: '<code>str</code> (short for string) is the data type for text in Python.'
-        },
-
-        // --- type() function ---
-        {
-          question: 'What will <code>print(type(10))</code> output?',
-          options: ["<code>&lt;class 'int'&gt;</code>", '<code>int</code>', '<code>10</code>', "<code>&lt;class 'float'&gt;</code>"],
-          correct: 0,
-          explanation: '<code>type(10)</code> returns <code>&lt;class \'int\'&gt;</code>, and <code>print()</code> displays it.'
-        },
-        {
+          type: 'mcq',
           question: 'What does <code>type(3.0)</code> return?',
-          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", 'Error'],
+          options: ['&lt;class &#39;int&#39;&gt;', '&lt;class &#39;float&#39;&gt;', '&lt;class &#39;str&#39;&gt;', '&lt;class &#39;bool&#39;&gt;'],
           correct: 1,
-          explanation: '<code>3.0</code> is a float, so <code>type(3.0)</code> returns <code>&lt;class \'float\'&gt;</code>.'
+          explanation: '3.0 has a decimal point, so Python stores it as a <code>float</code>. <code>type(3.0)</code> returns <code>&lt;class \'float\'&gt;</code>.'
         },
+        // -- Q5 | string --
         {
-          question: 'What does <code>type("42")</code> return?',
-          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", '<code>42</code>'],
+          type: 'mcq',
+          question: 'What is the data type of <code>"Python"</code> in Python?',
+          options: ['int', 'float', 'str', 'bool'],
           correct: 2,
-          explanation: '<code>"42"</code> is in quotes, so it is a string. <code>type("42")</code> returns <code>&lt;class \'str\'&gt;</code>.'
+          explanation: 'Anything enclosed in quotes is a <code>str</code> (string) in Python.'
         },
+        // -- Q6 | string --
         {
-          question: 'What does <code>type(2.5)</code> return?',
-          options: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", '<code>2.5</code>'],
-          correct: 1,
-          explanation: '<code>2.5</code> has a decimal point so it is a float. <code>type(2.5)</code> returns <code>&lt;class \'float\'&gt;</code>.'
-        },
-
-        // --- Conversion (int, float, str) ---
-        {
-          question: 'What is the result of <code>float(5)</code>?',
-          options: ['5', '5.0', "'5'", 'Error'],
-          correct: 1,
-          explanation: '<code>float(5)</code> converts the integer 5 into the float 5.0.'
-        },
-        {
-          question: 'Which function converts a value to a <strong>string</strong>?',
-          options: ['<code>str()</code>', '<code>string()</code>', '<code>int()</code>', '<code>float()</code>'],
+          type: 'mcq',
+          question: 'What does <code>print("Hello" + " " + "World")</code> output?',
+          options: ['Hello World', '"Hello World"', 'HelloWorld', 'Error'],
           correct: 0,
-          explanation: '<code>str()</code> converts a value to a string. <code>string()</code> does not exist in Python.'
+          explanation: 'The <code>+</code> operator concatenates strings. <code>"Hello" + " " + "World"</code> evaluates to <code>"Hello World"</code>.'
         },
+        // -- Q7 | boolean --
         {
-          question: 'Which of the following converts the number <strong>7</strong> to the string <strong>"7"</strong>?',
-          options: ['<code>int(7)</code>', '<code>float(7)</code>', '<code>str(7)</code>', '<code>type(7)</code>'],
+          type: 'mcq',
+          question: 'What is the boolean value of <code>bool(0)</code> in Python?',
+          options: ['True', 'False', 'None', '0'],
+          correct: 1,
+          explanation: 'In Python, these are falsy: <code>0</code>, <code>None</code>, empty strings, and empty collections.'
+        },
+        // -- Q8 | boolean --
+        {
+          type: 'mcq',
+          question: 'What does <code>bool("False")</code> return in Python?',
+          options: ['True', 'False', 'None', 'Error'],
+          correct: 0,
+          explanation: 'Any <strong>non-empty</strong> string is truthy in Python, even if the text says <code>"False"</code>.'
+        },
+        // -- Q9 | variable --
+        {
+          type: 'mcq',
+          question: 'What is the value of <code>x</code> after this code runs?<br><code>x = 10<br>x = x + 5</code>',
+          options: ['10', '5', '15', '105'],
           correct: 2,
-          explanation: '<code>str(7)</code> converts the integer 7 into the string "7".'
+          explanation: '<code>x</code> starts at 10. Then <code>x + 5 = 15</code> is computed and stored back into <code>x</code>.'
         },
+        // -- Q10 | variable --
         {
-          question: 'What is the result of <code>int(7.9)</code>?',
-          options: ['7', '7.9', '8', 'Error'],
+          type: 'mcq',
+          question: 'Which of the following is a <strong>valid</strong> variable name in Python?',
+          options: ['2nd_place', 'my-var', '_count', 'class'],
+          correct: 2,
+          explanation: 'Names cannot start with a digit (not <code>2nd_place</code>), cannot contain hyphens (not <code>my-var</code>), and cannot use reserved keywords (not <code>class</code>).'
+        },
+        // -- Q11 | comment --
+        {
+          type: 'mcq',
+          question: 'How do you write a single-line <strong>comment</strong> in Python?',
+          options: ['<code>// This is a comment</code>', '<code># This is a comment</code>', '<code>/* comment */</code>', '<code>&lt;!-- comment --&gt;</code>'],
+          correct: 1,
+          explanation: 'Python uses <code>#</code> for single-line comments. <code>//</code> is C/Java, <code>/* */</code> is CSS/C, and <code>&lt;!-- --&gt;</code> is HTML.'
+        },
+        // -- Q12 | comment --
+        {
+          type: 'mcq',
+          question: 'Which syntax is commonly used for multi-line comments / docstrings in Python?',
+          options: ['<code>// ... //</code>', '<code>/* ... */</code>', '<code>""" ... """</code>', '<code>&lt;!-- ... --&gt;</code>'],
+          correct: 2,
+          explanation: 'Triple-quoted strings (<code>""" ... """</code>) are commonly used as multi-line comments and docstrings in Python.'
+        },
+        // -- Q13 | keyword --
+        {
+          type: 'mcq',
+          question: 'Which of the following is <strong>NOT</strong> a Python keyword?',
+          options: ['if', 'for', 'while', 'foreach'],
+          correct: 3,
+          explanation: '<code>foreach</code> is not a Python keyword. Python uses <code>for ... in ...</code> for iteration.'
+        },
+        // -- Q14 | keyword --
+        {
+          type: 'mcq',
+          question: 'Which Python keyword is used to define a function?',
+          options: ['func', 'define', 'def', 'function'],
+          correct: 2,
+          explanation: 'The <code>def</code> keyword defines functions in Python. <code>function()</code>, <code>func()</code>, and <code>define()</code> do not exist as keywords.'
+        },
+        // -- Q15 | modulus --
+        {
+          type: 'mcq',
+          question: 'What is the result of <code>17 % 5</code> in Python?',
+          options: ['2', '3', '3.4', '12'],
           correct: 0,
-          explanation: '<code>int(7.9)</code> removes the decimal part and returns the integer 7. It does <strong>not</strong> round up.'
+          explanation: '<code>17 ÷ 5 = 3</code> with <strong>remainder 2</strong>. The <code>%</code> operator returns the remainder, so <code>17 % 5 = 2</code>.'
         },
+        // -- Q16 | modulus --
         {
-          question: 'What is the result of <code>float(8)</code>?',
-          options: ['8', '8.0', "'8'", 'Error'],
-          correct: 1,
-          explanation: '<code>float(8)</code> converts the integer 8 into the float 8.0.'
-        },
-        {
-          question: 'What is the result of <code>str(99)</code>?',
-          options: ['99', '"99"', "'99'", '99.0'],
-          correct: 1,
-          explanation: '<code>str(99)</code> converts the integer 99 into the string <code>"99"</code>. The quotes show it is now a string, not a number.'
-        },
-        {
-          question: 'What is the result of <code>int(5.0)</code>?',
-          options: ['5', '5.0', "'5'", 'Error'],
+          type: 'mcq',
+          question: 'What is the result of <code>10 % 3</code> in Python?',
+          options: ['1', '3', '3.33', '0'],
           correct: 0,
-          explanation: '<code>int(5.0)</code> converts the float 5.0 into the integer 5 by removing the decimal part.'
+          explanation: '<code>10 ÷ 3 = 3</code> with <strong>remainder 1</strong>, so <code>10 % 3 = 1</code>.'
         },
-
-        // --- Basic calculations ---
+        // -- Q17 | exponent --
         {
-          question: 'What does <code>print(3 + 2 * 4)</code> output?',
-          options: ['20', '11', '14', '23'],
+          type: 'mcq',
+          question: 'What does <code>2 ** 3</code> evaluate to in Python?',
+          options: ['5', '6', '8', '23'],
+          correct: 2,
+          explanation: '<code>**</code> is the exponent (power) operator. <code>2 ** 3 = 2³ = 8</code>.'
+        },
+        // -- Q18 | exponent --
+        {
+          type: 'mcq',
+          question: 'What is the value of <code>3 ** 2</code> in Python?',
+          options: ['6', '9', '32', '8'],
           correct: 1,
-          explanation: 'Multiplication comes first: <code>2 * 4 = 8</code>, then <code>3 + 8 = 11</code>.'
+          explanation: '<code>3 ** 2 = 3² = 9</code>. The <code>**</code> operator raises the left operand to the power of the right operand.'
         },
+        // -- Q19 | coding --
         {
-          question: 'What is the result of <code>4 * 5</code>?',
-          options: ['9', '20', '45', '54'],
-          correct: 1,
-          explanation: '<code>4 * 5</code> equals 20. The <code>*</code> operator is used for multiplication.'
+          type: 'coding',
+          question: 'Write Python code using the <code>**</code> operator to calculate <strong>2 raised to the power of 10</strong>.',
+          explanation: 'The <code>**</code> operator is Python\'s exponent operator. <code>2 ** 10</code> calculates 2¹⁰ = 1024.',
+          checkAnswer: function (code) {
+            return code.replace(/\s+/g, '').indexOf('2**10') !== -1;
+          }
         },
+        // -- Q20 | coding --
         {
-          question: 'What is the result of <code>15 - 7</code>?',
-          options: ['7', '8', '9', '22'],
-          correct: 1,
-          explanation: '<code>15 - 7</code> equals 8. The <code>-</code> operator subtracts numbers.'
-        },
-        {
-          question: 'What does <code>10 + 3 * 2</code> equal?',
-          options: ['26', '16', '13', '60'],
-          correct: 1,
-          explanation: 'Multiplication first: <code>3 * 2 = 6</code>, then <code>10 + 6 = 16</code>.'
-        },
-        {
-          question: 'What does <code>(10 + 3) * 2</code> equal?',
-          options: ['26', '16', '23', '60'],
-          correct: 0,
-          explanation: 'Parentheses come first: <code>(10 + 3) = 13</code>, then <code>13 * 2 = 26</code>.'
-        },
-        {
-          question: 'What is the result of <code>9 / 2</code> in Python?',
-          options: ['4', '4.5', '4 R 1', 'Error'],
-          correct: 1,
-          explanation: 'In Python, <code>/</code> always returns a float. <code>9 / 2 = 4.5</code>.'
-        },
-
-        // --- print() function ---
-        {
-          question: 'What does <code>print("Hello")</code> display?',
-          options: ['"Hello"', 'Hello', 'print("Hello")', 'Error'],
-          correct: 1,
-          explanation: '<code>print("Hello")</code> displays <code>Hello</code> (without quotes) to the screen.'
-        },
-        {
-          question: 'What does <code>print(2 + 3)</code> output?',
-          options: ['2 + 3', '5', '"5"', '23'],
-          correct: 1,
-          explanation: 'Python first calculates <code>2 + 3 = 5</code>, then <code>print()</code> displays <code>5</code>.'
+          type: 'coding',
+          question: 'Write a Python expression using the <code>%</code> operator to find the <strong>remainder when 15 is divided by 4</strong>.',
+          explanation: 'The <code>%</code> operator returns the remainder of division. <code>15 % 4</code> returns 3 because 15 ÷ 4 = 3 with remainder 3.',
+          checkAnswer: function (code) {
+            return code.replace(/\s+/g, '').indexOf('15%4') !== -1;
+          }
         }
       ];
 
@@ -884,10 +1016,14 @@
       var score = 0;
       var answered = false;
       var quizEnded = false;
+      var timeUp = false;
 
-      // Store detailed answer data for each question.
-      // null = unanswered, otherwise:
-      //   { selectedIndex, correctIndex, isCorrect, question, options, explanation }
+      // Timer constants
+      var TIME_LIMIT = 900; // 15 minutes in seconds
+      var timeRemaining = TIME_LIMIT;
+      var timerInterval = null;
+
+      // Results per question
       var results = new Array(totalQuestions).fill(null);
 
       // DOM references
@@ -896,6 +1032,9 @@
       var questionNumberEl = document.getElementById('question-number');
       var questionTextEl = document.getElementById('question-text');
       var optionsListEl = document.getElementById('options-list');
+      var codeEditorWrapper = document.getElementById('code-editor-wrapper');
+      var codeEditor = document.getElementById('code-editor');
+      var codeEditorSaved = document.getElementById('code-editor-saved');
       var feedbackMessageEl = document.getElementById('feedback-message');
       var errorMessageEl = document.getElementById('error-message');
       var nextBtn = document.getElementById('next-btn');
@@ -904,8 +1043,84 @@
       var totalQCountEl = document.getElementById('total-q-count');
       var progressFillEl = document.getElementById('progress-fill');
       var scoreSoFarEl = document.getElementById('score-so-far');
+      var timerDisplayEl = document.getElementById('timer-display');
       var reviewSection = document.getElementById('review-section');
       var reviewList = document.getElementById('review-list');
+
+      // ============================================================
+      //  TIMER
+      // ============================================================
+      function formatTime(seconds) {
+        var m = Math.floor(seconds / 60);
+        var s = seconds % 60;
+        return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      }
+
+      function updateTimerDisplay() {
+        timerDisplayEl.textContent = formatTime(timeRemaining);
+
+        // Warning states
+        timerDisplayEl.className = 'timer-display';
+        if (timeRemaining <= 60) {
+          timerDisplayEl.classList.add('timer-critical');
+        } else if (timeRemaining <= 180) {
+          timerDisplayEl.classList.add('timer-warning');
+        }
+      }
+
+      function stopTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+      }
+
+      function onTimeUp() {
+        timeUp = true;
+        stopTimer();
+        timerDisplayEl.textContent = '00:00';
+        timerDisplayEl.className = 'timer-display timer-critical';
+
+        // Grade unanswered questions as wrong
+        for (var i = 0; i < totalQuestions; i++) {
+          if (results[i] === null) {
+            var q = questions[i];
+            if (q.type === 'mcq') {
+              results[i] = {
+                selectedIndex: -1,
+                correctIndex: q.correct,
+                isCorrect: false,
+                question: q.question,
+                options: q.options.slice(),
+                explanation: q.explanation,
+                type: 'mcq'
+              };
+            } else {
+              results[i] = {
+                userCode: '',
+                isCorrect: false,
+                question: q.question,
+                explanation: q.explanation,
+                type: 'coding'
+              };
+            }
+          }
+        }
+
+        showResults();
+      }
+
+      function startTimer() {
+        timeRemaining = TIME_LIMIT;
+        updateTimerDisplay();
+        timerInterval = setInterval(function () {
+          timeRemaining--;
+          updateTimerDisplay();
+          if (timeRemaining <= 0) {
+            onTimeUp();
+          }
+        }, 1000);
+      }
 
       // ============================================================
       //  RENDER
@@ -915,36 +1130,57 @@
         questionNumberEl.textContent = 'Question ' + (currentIndex + 1);
         questionTextEl.innerHTML = q.question;
 
-        // Build options
-        optionsListEl.innerHTML = '';
-        q.options.forEach(function (opt, idx) {
-          var li = document.createElement('li');
-          var btn = document.createElement('button');
-          btn.className = 'option-btn';
-          btn.setAttribute('data-index', idx);
-          btn.innerHTML =
-            '<span class="option-letter">' + LABELS[idx] + '</span>' +
-            '<span class="option-text">' + opt + '</span>';
-          btn.addEventListener('click', onOptionClick);
-          li.appendChild(btn);
-          optionsListEl.appendChild(li);
-        });
-
-        // Reset feedback / error state
+        // Reset feedback / error
         feedbackMessageEl.className = 'feedback-message';
         feedbackMessageEl.innerHTML = '';
         errorMessageEl.classList.remove('show');
         answered = false;
 
-        // Update next button text
-        if (currentIndex === totalQuestions - 1) {
-          nextBtn.textContent = 'See Results';
-        } else {
-          nextBtn.textContent = 'Next Question';
-        }
-        nextBtn.disabled = false;
+        if (q.type === 'coding') {
+          // --- CODING QUESTION ---
+          optionsListEl.innerHTML = '';
+          optionsListEl.style.display = 'none';
+          codeEditorWrapper.style.display = 'block';
+          codeEditor.disabled = false;
+          codeEditor.value = '';
+          codeEditor.className = 'code-editor';
+          codeEditorSaved.className = 'code-editor-saved-indicator';
 
-        // Update progress indicator
+          // Listen for input
+          codeEditor.oninput = function () {
+            if (codeEditor.value.trim().length > 0) {
+              answered = true;
+              errorMessageEl.classList.remove('show');
+            } else {
+              answered = false;
+            }
+          };
+
+          nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
+          nextBtn.disabled = false;
+        } else {
+          // --- MCQ QUESTION ---
+          codeEditorWrapper.style.display = 'none';
+          optionsListEl.style.display = '';
+          optionsListEl.innerHTML = '';
+
+          q.options.forEach(function (opt, idx) {
+            var li = document.createElement('li');
+            var btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.setAttribute('data-index', idx);
+            btn.innerHTML =
+              '<span class="option-letter">' + LABELS[idx] + '</span>' +
+              '<span class="option-text">' + opt + '</span>';
+            btn.addEventListener('click', onOptionClick);
+            li.appendChild(btn);
+            optionsListEl.appendChild(li);
+          });
+
+          nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
+          nextBtn.disabled = false;
+        }
+
         updateProgress();
       }
 
@@ -953,7 +1189,6 @@
         totalQCountEl.textContent = totalQuestions;
         progressFillEl.style.width = (currentIndex / totalQuestions) * 100 + '%';
 
-        // Count correct so far
         var correctCount = 0;
         for (var i = 0; i < results.length; i++) {
           if (results[i] !== null && results[i].isCorrect) correctCount++;
@@ -962,7 +1197,7 @@
       }
 
       // ============================================================
-      //  EVENTS
+      //  EVENTS  —  MCQ
       // ============================================================
       function onOptionClick(e) {
         if (answered) return;
@@ -972,31 +1207,21 @@
         var q = questions[currentIndex];
         var isCorrect = idx === q.correct;
 
-        // Mark as answered
         answered = true;
         btn.classList.add('selected');
 
-        // Disable all option buttons
         var allOptions = optionsListEl.querySelectorAll('.option-btn');
-        allOptions.forEach(function (opt) {
-          opt.classList.add('disabled');
-        });
+        allOptions.forEach(function (opt) { opt.classList.add('disabled'); });
 
-        // Highlight correct / incorrect
         allOptions[q.correct].classList.add('correct');
-        if (!isCorrect) {
-          btn.classList.add('incorrect');
-        }
+        if (!isCorrect) btn.classList.add('incorrect');
 
-        // Add feedback icons
+        // Feedback icons
         allOptions.forEach(function (opt, i) {
           var iconSpan = document.createElement('span');
           iconSpan.className = 'feedback-icon';
-          if (i === q.correct) {
-            iconSpan.textContent = '✓';
-          } else if (i === idx && !isCorrect) {
-            iconSpan.textContent = '✗';
-          }
+          if (i === q.correct) iconSpan.textContent = '✓';
+          else if (i === idx && !isCorrect) iconSpan.textContent = '✗';
           if (iconSpan.textContent) {
             var existing = opt.querySelector('.feedback-icon');
             if (existing) existing.remove();
@@ -1004,21 +1229,18 @@
           }
         });
 
-        // Store detailed result
         results[currentIndex] = {
           selectedIndex: idx,
           correctIndex: q.correct,
           isCorrect: isCorrect,
           question: q.question,
           options: q.options.slice(),
-          explanation: q.explanation
+          explanation: q.explanation,
+          type: 'mcq'
         };
 
-        if (isCorrect) {
-          score++;
-        }
+        if (isCorrect) score++;
 
-        // Show feedback message
         feedbackMessageEl.className = 'feedback-message show';
         if (isCorrect) {
           feedbackMessageEl.classList.add('is-correct');
@@ -1028,26 +1250,78 @@
           feedbackMessageEl.innerHTML = '<strong>✗ Not quite.</strong> ' + q.explanation;
         }
 
-        // Hide any prior error
         errorMessageEl.classList.remove('show');
-
-        // Update progress score
         updateProgress();
       }
 
+      // ============================================================
+      //  EVENTS  —  NEXT / SUBMIT
+      // ============================================================
       function onNextClick() {
-        if (!answered) {
-          errorMessageEl.classList.add('show');
+        // If already answered, advance to next / show results
+        if (answered) {
+          errorMessageEl.classList.remove('show');
+          if (currentIndex === totalQuestions - 1) {
+            stopTimer();
+            showResults();
+          } else {
+            currentIndex++;
+            renderQuestion();
+          }
           return;
         }
 
-        errorMessageEl.classList.remove('show');
+        var q = questions[currentIndex];
 
-        if (currentIndex === totalQuestions - 1) {
-          showResults();
-        } else {
-          currentIndex++;
-          renderQuestion();
+        if (q.type === 'coding') {
+          var code = codeEditor.value.replace(/\s+$/, '');
+          if (code.length === 0) {
+            errorMessageEl.textContent = 'Please write your Python code before continuing.';
+            errorMessageEl.classList.add('show');
+            return;
+          }
+          errorMessageEl.classList.remove('show');
+
+          // Grade coding answer
+          var isCorrect = q.checkAnswer(code);
+
+          results[currentIndex] = {
+            userCode: code,
+            isCorrect: isCorrect,
+            question: q.question,
+            explanation: q.explanation,
+            type: 'coding'
+          };
+
+          if (isCorrect) score++;
+
+          // Mark answered and lock editor
+          answered = true;
+          codeEditor.disabled = true;
+          codeEditor.classList.add('saved');
+          codeEditorSaved.className = 'code-editor-saved-indicator show';
+
+          // Show feedback
+          feedbackMessageEl.className = 'feedback-message show';
+          if (isCorrect) {
+            feedbackMessageEl.classList.add('is-correct');
+            feedbackMessageEl.innerHTML = '<strong>✓ Correct!</strong> ' + q.explanation;
+          } else {
+            feedbackMessageEl.classList.add('is-incorrect');
+            feedbackMessageEl.innerHTML = '<strong>✗ Not quite.</strong> ' + q.explanation;
+          }
+
+          // Change button text to indicate next action
+          nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
+          updateProgress();
+          return;
+        }
+
+        // MCQ: not answered yet
+        if (!answered) {
+          errorMessageEl.textContent = 'Please select an answer before continuing.';
+          errorMessageEl.classList.add('show');
+          return;
         }
       }
 
@@ -1056,6 +1330,7 @@
       // ============================================================
       function showResults() {
         quizEnded = true;
+        stopTimer();
         questionScreen.classList.add('hidden');
         resultsScreen.classList.add('show');
 
@@ -1064,33 +1339,21 @@
           if (results[i] !== null && results[i].isCorrect) correctCount++;
         }
         var total = totalQuestions;
-        var pct = correctCount / total;
+        var pct = Math.min(correctCount / total, 1);
 
-        // Score circle
         var circle = document.getElementById('score-circle');
         circle.textContent = correctCount + '/' + total;
         circle.className = 'score-circle';
-        if (pct === 1) {
-          circle.classList.add('perfect');
-        } else if (pct >= 0.75) {
-          circle.classList.add('great');
-        } else if (pct >= 0.5) {
-          circle.classList.add('good');
-        } else {
-          circle.classList.add('try-again');
-        }
+        if (pct === 1) circle.classList.add('perfect');
+        else if (pct >= 0.75) circle.classList.add('great');
+        else if (pct >= 0.5) circle.classList.add('good');
+        else circle.classList.add('try-again');
 
-        // Heading
         document.getElementById('results-heading').textContent = headingForScore(pct);
-
-        // Score text
         document.getElementById('results-score-text').textContent =
           'You got ' + correctCount + ' out of ' + total + ' correct.';
-
-        // Encouragement
         document.getElementById('results-message').textContent = encouragementForScore(pct);
 
-        // Build review
         renderReview(correctCount, total);
       }
 
@@ -1102,16 +1365,10 @@
       }
 
       function encouragementForScore(pct) {
-        if (pct === 1) {
-          return 'You answered every question correctly. You really know your Python basics! Ready for the next topic?';
-        }
-        if (pct >= 0.75) {
-          return 'You have a solid grasp of Python fundamentals. Review the ones you missed below and try again to ace it!';
-        }
-        if (pct >= 0.5) {
-          return 'You\'re on the right track! Take a look at the questions you got wrong below, practise a bit more, and try again.';
-        }
-        return 'Don\'t worry — Python takes practice! Go over each question below, review datatypes, conversions, and operator precedence, then give it another shot.';
+        if (pct === 1) return 'You answered every question correctly. You really know your Python basics! Ready for the next topic?';
+        if (pct >= 0.75) return 'You have a solid grasp of Python fundamentals. Review the ones you missed below and try again to ace it!';
+        if (pct >= 0.5) return 'You\'re on the right track! Take a look at the questions you got wrong below, practise a bit more, and try again.';
+        return 'Don\'t worry — Python takes practice! Go over each question below, review the topics, then give it another shot.';
       }
 
       // ============================================================
@@ -1119,7 +1376,6 @@
       // ============================================================
       function renderReview(correctCount, total) {
         reviewSection.classList.add('show');
-
         var html = '';
 
         for (var i = 0; i < results.length; i++) {
@@ -1130,61 +1386,84 @@
           var isCorrect = r.isCorrect;
           var statusClass = isCorrect ? 'correct-badge' : 'incorrect-badge';
           var statusText = isCorrect ? '✓ Correct' : '✗ Incorrect';
+          var unanswered = (r.type === 'mcq' && r.selectedIndex === -1) ||
+                           (r.type === 'coding' && r.userCode === '');
+          if (unanswered) statusText = '⏱ Unanswered';
 
           html += '<div class="review-card">';
           html += '<div class="review-q-header">';
           html += '  <div class="review-q-text">Q' + qNum + '. ' + r.question + '</div>';
           html += '  <span class="review-status-badge ' + statusClass + '">' + statusText + '</span>';
           html += '</div>';
-          html += '<ul class="review-options">';
 
-          for (var j = 0; j < r.options.length; j++) {
-            var opt = r.options[j];
-            var optClass = '';
-            var label = '';
-
-            if (j === r.correctIndex && j === r.selectedIndex) {
-              // User picked the correct answer
-              optClass = 'is-user-correct';
-              label = '✓ Your answer';
-            } else if (j === r.correctIndex) {
-              // This is the correct option but user didn't pick it
-              optClass = 'is-correct-answer';
-              label = '✓ Correct answer';
-            } else if (j === r.selectedIndex) {
-              // User picked this and it's wrong
-              optClass = 'is-user-wrong';
-              label = '✗ Your answer';
+          if (r.type === 'coding') {
+            // Coding answer review
+            html += '<div style="background:#1e293b;color:#e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:10px;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-all;">';
+            if (r.userCode && r.userCode.length > 0) {
+              html += escapeHtml(r.userCode);
+            } else {
+              html += '<span style="color:#94a3b8;font-style:italic;">No answer submitted</span>';
             }
+            html += '</div>';
+            html += '<div class="review-option is-correct-answer" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;font-size:13px;border:1.5px solid #bbf7d0;background:#f0fdf4;">';
+            html += '  <span style="color:#16a34a;font-weight:600;">Expected:</span>';
+            html += '  <span style="font-family:Consolas,Monaco,monospace;">See explanation below</span>';
+            html += '</div>';
+            html += '<p style="font-size:13px;color:#64748b;margin-top:8px;line-height:1.5;">' + r.explanation + '</p>';
+          } else {
+            // MCQ review (same as before)
+            html += '<ul class="review-options">';
+            for (var j = 0; j < r.options.length; j++) {
+              var opt = r.options[j];
+              var optClass = '';
+              var label = '';
 
-            html += '<li class="review-option ' + optClass + '">';
-            html += '  <span class="opt-letter">' + LABELS[j] + '</span>';
-            html += '  <span class="opt-text">' + opt + '</span>';
-            if (label) {
-              html += '  <span class="opt-label">' + label + '</span>';
+              if (j === r.correctIndex && j === r.selectedIndex) {
+                optClass = 'is-user-correct';
+                label = '✓ Your answer';
+              } else if (j === r.correctIndex) {
+                optClass = 'is-correct-answer';
+                label = '✓ Correct answer';
+              } else if (j === r.selectedIndex) {
+                optClass = 'is-user-wrong';
+                label = '✗ Your answer';
+              }
+
+              html += '<li class="review-option ' + optClass + '">';
+              html += '  <span class="opt-letter">' + LABELS[j] + '</span>';
+              html += '  <span class="opt-text">' + opt + '</span>';
+              if (label) html += '  <span class="opt-label">' + label + '</span>';
+              html += '</li>';
             }
-            html += '</li>';
+            html += '</ul>';
+            html += '<p style="font-size:13px;color:#64748b;margin-top:8px;line-height:1.5;">' + r.explanation + '</p>';
           }
 
-          html += '</ul>';
           html += '</div>';
         }
 
         reviewList.innerHTML = html;
 
-        // Update review heading with summary
         var heading = document.getElementById('review-heading');
         heading.innerHTML = 'Review Your Answers — <span class="badge-correct">' + correctCount + ' correct</span> / <span class="badge-incorrect">' + (total - correctCount) + ' incorrect</span>';
+      }
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
       }
 
       // ============================================================
       //  RESTART
       // ============================================================
       function restartQuiz() {
+        stopTimer();
         currentIndex = 0;
         score = 0;
         answered = false;
         quizEnded = false;
+        timeUp = false;
         results = new Array(totalQuestions).fill(null);
 
         resultsScreen.classList.remove('show');
@@ -1192,9 +1471,12 @@
         reviewList.innerHTML = '';
         questionScreen.classList.remove('hidden');
         errorMessageEl.classList.remove('show');
+        codeEditorWrapper.style.display = 'none';
+        optionsListEl.style.display = '';
 
         shuffleArray(questions);
         renderQuestion();
+        startTimer();
       }
 
       // ============================================================
@@ -1203,21 +1485,27 @@
       function onKeyDown(e) {
         if (quizEnded) return;
 
-        // Number keys 1-4 for options
-        var keyNum = parseInt(e.key, 10);
-        if (keyNum >= 1 && keyNum <= 4 && !answered) {
-          var allOptions = optionsListEl.querySelectorAll('.option-btn');
-          if (allOptions[keyNum - 1]) {
-            allOptions[keyNum - 1].click();
+        var q = questions[currentIndex];
+
+        // Number keys 1-4 for MCQ options only
+        if (q.type === 'mcq') {
+          var keyNum = parseInt(e.key, 10);
+          if (keyNum >= 1 && keyNum <= 4 && !answered) {
+            var allOptions = optionsListEl.querySelectorAll('.option-btn');
+            if (allOptions[keyNum - 1]) {
+              allOptions[keyNum - 1].click();
+            }
+            return;
           }
-          return;
         }
 
-        // Enter or Space for next
+        // Enter or Space for next (but not when typing in code editor)
         if (e.key === 'Enter' || e.key === ' ') {
           if (e.target.tagName !== 'BUTTON' || !e.target.classList.contains('option-btn')) {
-            e.preventDefault();
-            nextBtn.click();
+            if (e.target !== codeEditor) {
+              e.preventDefault();
+              nextBtn.click();
+            }
           }
         }
       }
@@ -1242,6 +1530,7 @@
         totalQCountEl.textContent = totalQuestions;
         shuffleArray(questions);
         renderQuestion();
+        startTimer();
 
         // Bind events
         nextBtn.addEventListener('click', onNextClick);
