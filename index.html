@@ -771,7 +771,7 @@
     <!-- ===== HEADER ===== -->
     <div class="quiz-header">
       <h1>Python Basics Quiz</h1>
-      <p>int, float, str, bool, variables, comments, keywords, <code>%</code>, <code>**</code>, and more. 15-minute timer!</p>
+      <p>Variables, arithmetic &amp; comparison operators, <code>if</code>/<code>elif</code>/<code>else</code>. 15-minute timer!</p>
     </div>
 
     <!-- ===== PROGRESS ===== -->
@@ -838,170 +838,210 @@
       'use strict';
 
       // ============================================================
-      //  QUESTIONS  (20 total — int, float, str, bool, variables,
-      //               comments, keywords, modulus, exponent, coding)
+      //  QUESTIONS  (20 total — 15 MCQ + 5 Coding)
+      //             Topics: variables, arithmetic ops, comparison ops,
+      //             if/elif/else statements
       // ============================================================
       var questions = [
-        // -- Q1 | int --
-        {
-          type: 'mcq',
-          question: 'Which of the following is an <strong>integer (int)</strong> in Python?',
-          options: ['"42"', '3.14', '42', 'True'],
-          correct: 2,
-          explanation: '42 has no decimal point and no quotes, so it is an <code>int</code>. "42" is a string, 3.14 is a float.'
-        },
-        // -- Q2 | int --
-        {
-          type: 'mcq',
-          question: 'What is the result of <code>int(7.9)</code> in Python?',
-          options: ['7', '8', '7.9', 'Error'],
-          correct: 0,
-          explanation: '<code>int(7.9)</code> <strong>truncates</strong> the decimal part and returns 7. It does NOT round up to 8.'
-        },
-        // -- Q3 | float --
-        {
-          type: 'mcq',
-          question: 'Which of the following is a <strong>float</strong> in Python?',
-          options: ['5', '"5.0"', '5.0', 'True'],
-          correct: 2,
-          explanation: '5.0 has a decimal point, making it a <code>float</code>. 5 is an <code>int</code>, "5.0" and "True" are strings.'
-        },
-        // -- Q4 | float --
-        {
-          type: 'mcq',
-          question: 'What does <code>type(3.0)</code> return?',
-          options: ['&lt;class &#39;int&#39;&gt;', '&lt;class &#39;float&#39;&gt;', '&lt;class &#39;str&#39;&gt;', '&lt;class &#39;bool&#39;&gt;'],
-          correct: 1,
-          explanation: '3.0 has a decimal point, so Python stores it as a <code>float</code>. <code>type(3.0)</code> returns <code>&lt;class \'float\'&gt;</code>.'
-        },
-        // -- Q5 | string --
-        {
-          type: 'mcq',
-          question: 'What is the data type of <code>"Python"</code> in Python?',
-          options: ['int', 'float', 'str', 'bool'],
-          correct: 2,
-          explanation: 'Anything enclosed in quotes is a <code>str</code> (string) in Python.'
-        },
-        // -- Q6 | string --
-        {
-          type: 'mcq',
-          question: 'What does <code>print("Hello" + " " + "World")</code> output?',
-          options: ['Hello World', '"Hello World"', 'HelloWorld', 'Error'],
-          correct: 0,
-          explanation: 'The <code>+</code> operator concatenates strings. <code>"Hello" + " " + "World"</code> evaluates to <code>"Hello World"</code>.'
-        },
-        // -- Q7 | boolean --
-        {
-          type: 'mcq',
-          question: 'What is the boolean value of <code>bool(0)</code> in Python?',
-          options: ['True', 'False', 'None', '0'],
-          correct: 1,
-          explanation: 'In Python, these are falsy: <code>0</code>, <code>None</code>, empty strings, and empty collections.'
-        },
-        // -- Q8 | boolean --
-        {
-          type: 'mcq',
-          question: 'What does <code>bool("False")</code> return in Python?',
-          options: ['True', 'False', 'None', 'Error'],
-          correct: 0,
-          explanation: 'Any <strong>non-empty</strong> string is truthy in Python, even if the text says <code>"False"</code>.'
-        },
-        // -- Q9 | variable --
-        {
-          type: 'mcq',
-          question: 'What is the value of <code>x</code> after this code runs?<br><code>x = 10<br>x = x + 5</code>',
-          options: ['10', '5', '15', '105'],
-          correct: 2,
-          explanation: '<code>x</code> starts at 10. Then <code>x + 5 = 15</code> is computed and stored back into <code>x</code>.'
-        },
-        // -- Q10 | variable --
+        // ========== VARIABLES (Q1-Q3) ==========
+        // -- Q1 | variables --
         {
           type: 'mcq',
           question: 'Which of the following is a <strong>valid</strong> variable name in Python?',
-          options: ['2nd_place', 'my-var', '_count', 'class'],
+          options: ['2ndValue', 'my-var', '_count', 'class'],
           correct: 2,
-          explanation: 'Names cannot start with a digit (not <code>2nd_place</code>), cannot contain hyphens (not <code>my-var</code>), and cannot use reserved keywords (not <code>class</code>).'
+          explanation: 'Variable names cannot start with a digit (not <code>2ndValue</code>), cannot contain hyphens (not <code>my-var</code>), and cannot be reserved keywords (not <code>class</code>). <code>_count</code> is valid.'
         },
-        // -- Q11 | comment --
+        // -- Q2 | variables --
         {
           type: 'mcq',
-          question: 'How do you write a single-line <strong>comment</strong> in Python?',
-          options: ['<code>// This is a comment</code>', '<code># This is a comment</code>', '<code>/* comment */</code>', '<code>&lt;!-- comment --&gt;</code>'],
+          question: 'What is the value of <code>x</code> after this code runs?<br><code>x = 8<br>x = x + 4</code>',
+          options: ['4', '8', '12', '84'],
+          correct: 2,
+          explanation: '<code>x</code> starts at 8. Then <code>x + 4 = 12</code> is computed and stored back into <code>x</code>.'
+        },
+        // -- Q3 | variables --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>a = 5</code><br><code>b = 3</code><br><code>print(a * b + 1)</code>',
+          options: ['8', '15', '16', '1531'],
+          correct: 2,
+          explanation: '<code>a * b = 15</code>, then <code>15 + 1 = 16</code>. Operator precedence: <code>*</code> before <code>+</code>.'
+        },
+
+        // ========== ARITHMETIC OPERATIONS (Q4-Q7) ==========
+        // -- Q4 | addition --
+        {
+          type: 'mcq',
+          question: 'What is the result of <code>12 + 7</code> in Python?',
+          options: ['5', '19', '127', '17'],
           correct: 1,
-          explanation: 'Python uses <code>#</code> for single-line comments. <code>//</code> is C/Java, <code>/* */</code> is CSS/C, and <code>&lt;!-- --&gt;</code> is HTML.'
+          explanation: '<code>12 + 7 = 19</code>. The <code>+</code> operator performs addition on numbers.'
         },
-        // -- Q12 | comment --
+        // -- Q5 | integer division --
         {
           type: 'mcq',
-          question: 'Which syntax is commonly used for multi-line comments / docstrings in Python?',
-          options: ['<code>// ... //</code>', '<code>/* ... */</code>', '<code>""" ... """</code>', '<code>&lt;!-- ... --&gt;</code>'],
+          question: 'What is the result of <code>21 // 4</code> in Python (integer / floor division)?',
+          options: ['5', '5.25', '4', '1'],
+          correct: 0,
+          explanation: '<code>21 // 4</code> performs floor division. 21 ÷ 4 = 5.25, floored down to <strong>5</strong>.'
+        },
+        // -- Q6 | parentheses --
+        {
+          type: 'mcq',
+          question: 'What is the result of <code>2 * (5 + 3)</code> in Python?',
+          options: ['13', '10', '16', '30'],
           correct: 2,
-          explanation: 'Triple-quoted strings (<code>""" ... """</code>) are commonly used as multi-line comments and docstrings in Python.'
+          explanation: 'Parentheses come first: <code>(5 + 3) = 8</code>, then <code>2 * 8 = 16</code>.'
         },
-        // -- Q13 | keyword --
+        // -- Q7 | modulus --
         {
           type: 'mcq',
-          question: 'Which of the following is <strong>NOT</strong> a Python keyword?',
-          options: ['if', 'for', 'while', 'foreach'],
-          correct: 3,
-          explanation: '<code>foreach</code> is not a Python keyword. Python uses <code>for ... in ...</code> for iteration.'
-        },
-        // -- Q14 | keyword --
-        {
-          type: 'mcq',
-          question: 'Which Python keyword is used to define a function?',
-          options: ['func', 'define', 'def', 'function'],
-          correct: 2,
-          explanation: 'The <code>def</code> keyword defines functions in Python. <code>function()</code>, <code>func()</code>, and <code>define()</code> do not exist as keywords.'
-        },
-        // -- Q15 | modulus --
-        {
-          type: 'mcq',
-          question: 'What is the result of <code>17 % 5</code> in Python?',
+          question: 'What is the result of <code>17 % 5</code> in Python (modulus / remainder)?',
           options: ['2', '3', '3.4', '12'],
           correct: 0,
           explanation: '<code>17 ÷ 5 = 3</code> with <strong>remainder 2</strong>. The <code>%</code> operator returns the remainder, so <code>17 % 5 = 2</code>.'
         },
-        // -- Q16 | modulus --
+
+        // ========== COMPARISON OPERATIONS (Q8-Q11) ==========
+        // -- Q8 | greater than --
         {
           type: 'mcq',
-          question: 'What is the result of <code>10 % 3</code> in Python?',
-          options: ['1', '3', '3.33', '0'],
-          correct: 0,
-          explanation: '<code>10 ÷ 3 = 3</code> with <strong>remainder 1</strong>, so <code>10 % 3 = 1</code>.'
-        },
-        // -- Q17 | exponent --
-        {
-          type: 'mcq',
-          question: 'What does <code>2 ** 3</code> evaluate to in Python?',
-          options: ['5', '6', '8', '23'],
+          question: 'What does <code>5 &gt; 3</code> evaluate to in Python?',
+          options: ['5', '3', 'True', 'False'],
           correct: 2,
-          explanation: '<code>**</code> is the exponent (power) operator. <code>2 ** 3 = 2³ = 8</code>.'
+          explanation: '<code>5 &gt; 3</code> is <code>True</code> because 5 is indeed greater than 3. Comparison operators return a boolean.'
         },
-        // -- Q18 | exponent --
+        // -- Q9 | equal to --
         {
           type: 'mcq',
-          question: 'What is the value of <code>3 ** 2</code> in Python?',
-          options: ['6', '9', '32', '8'],
-          correct: 1,
-          explanation: '<code>3 ** 2 = 3² = 9</code>. The <code>**</code> operator raises the left operand to the power of the right operand.'
+          question: 'What does <code>10 == 10</code> evaluate to in Python?',
+          options: ['True', 'False', '10', '20'],
+          correct: 0,
+          explanation: '<code>10 == 10</code> is <code>True</code>. The <code>==</code> operator checks if two values are equal.'
         },
-        // -- Q19 | coding --
+        // -- Q10 | not equal --
+        {
+          type: 'mcq',
+          question: 'What does <code>7 != 7</code> evaluate to in Python?',
+          options: ['True', 'False', '7', '14'],
+          correct: 1,
+          explanation: '<code>7 != 7</code> is <code>False</code> because 7 is equal to 7. The <code>!=</code> operator returns <code>True</code> only when values differ.'
+        },
+        // -- Q11 | less than or equal --
+        {
+          type: 'mcq',
+          question: 'What is the result of <code>4 &lt;= 3</code> in Python?',
+          options: ['True', 'False', '4', '3'],
+          correct: 1,
+          explanation: '<code>4 &lt;= 3</code> is <code>False</code> because 4 is greater than 3, so it is not less than or equal.'
+        },
+
+        // ========== IF STATEMENTS (Q12-Q15) ==========
+        // -- Q12 | basic if --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 5</code><br><code>if x &gt; 3:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code>',
+          options: ['"yes"', 'yes', 'nothing', 'Error'],
+          correct: 1,
+          explanation: '<code>5 &gt; 3</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>yes</code> (without quotes).'
+        },
+        // -- Q13 | if/else --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 2</code><br><code>if x &gt; 3:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("a")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("b")</code>',
+          options: ['a', 'b', 'a followed by b', 'nothing'],
+          correct: 1,
+          explanation: '<code>2 &gt; 3</code> is <code>False</code>, so the <code>if</code> block is skipped and the <code>else</code> block runs, printing <code>b</code>.'
+        },
+        // -- Q14 | if/elif/else --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 0</code><br><code>if x &gt; 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("pos")</code><br><code>elif x &lt; 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("neg")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("zero")</code>',
+          options: ['pos', 'neg', 'zero', 'nothing'],
+          correct: 2,
+          explanation: '<code>x = 0</code> is not &gt; 0 and not &lt; 0, so both <code>if</code> and <code>elif</code> are skipped, and the <code>else</code> prints <code>zero</code>.'
+        },
+        // -- Q15 | if with modulus --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 10</code><br><code>if x % 2 == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("even")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("odd")</code>',
+          options: ['even', 'odd', '10', 'Error'],
+          correct: 0,
+          explanation: '<code>10 % 2 = 0</code>, so the condition <code>x % 2 == 0</code> is <code>True</code>. The <code>if</code> block runs, printing <code>even</code>.'
+        },
+
+        // ========== CODING QUESTIONS (Q16-Q20) ==========
+        // -- Q16 | coding: variables + arithmetic --
         {
           type: 'coding',
-          question: 'Write Python code using the <code>**</code> operator to calculate <strong>2 raised to the power of 10</strong>.',
-          explanation: 'The <code>**</code> operator is Python\'s exponent operator. <code>2 ** 10</code> calculates 2¹⁰ = 1024.',
+          question: 'Write Python code that assigns the value <strong>10</strong> to variable <code>x</code> and <strong>20</strong> to variable <code>y</code>, then <strong>prints the sum</strong> of <code>x</code> and <code>y</code>.',
+          expectedCode: 'x = 10\ny = 20\nprint(x + y)',
+          explanation: 'First assign <code>x = 10</code> and <code>y = 20</code>, then use <code>print(x + y)</code> to add and display the result.',
           checkAnswer: function (code) {
-            return code.replace(/\s+/g, '').indexOf('2**10') !== -1;
+            var norm = code.replace(/\s+/g, '');
+            return norm.indexOf('10') !== -1 &&
+                   norm.indexOf('20') !== -1 &&
+                   norm.indexOf('print') !== -1 &&
+                   norm.indexOf('+') !== -1;
           }
         },
-        // -- Q20 | coding --
+        // -- Q17 | coding: comparison --
         {
           type: 'coding',
-          question: 'Write a Python expression using the <code>%</code> operator to find the <strong>remainder when 15 is divided by 4</strong>.',
-          explanation: 'The <code>%</code> operator returns the remainder of division. <code>15 % 4</code> returns 3 because 15 ÷ 4 = 3 with remainder 3.',
+          question: 'Write Python code that uses a <strong>comparison operator</strong> to check if <strong>25 is greater than 15</strong> and <strong>prints the result</strong>.',
+          expectedCode: 'print(25 > 15)',
+          explanation: 'Use <code>print(25 > 15)</code>. The comparison <code>25 > 15</code> evaluates to <code>True</code>, and <code>print()</code> displays it.',
           checkAnswer: function (code) {
-            return code.replace(/\s+/g, '').indexOf('15%4') !== -1;
+            var norm = code.replace(/\s+/g, '');
+            return norm.indexOf('25') !== -1 &&
+                   norm.indexOf('15') !== -1 &&
+                   norm.indexOf('>') !== -1 &&
+                   norm.indexOf('print') !== -1;
+          }
+        },
+        // -- Q18 | coding: if/else --
+        {
+          type: 'coding',
+          question: 'Write Python code that sets <code>num = 7</code>, then uses an <strong>if/else</strong> statement to print <code>"even"</code> if the number is even and <code>"odd"</code> if it is odd. (Hint: use <code>%</code> to check even/odd.)',
+          expectedCode: 'num = 7\nif num % 2 == 0:\n    print("even")\nelse:\n    print("odd")',
+          explanation: 'Use <code>num % 2 == 0</code> to check even/odd. If the remainder when divided by 2 is 0, the number is even; otherwise it is odd.',
+          checkAnswer: function (code) {
+            var norm = code.replace(/\s+/g, '');
+            return norm.indexOf('if') !== -1 &&
+                   norm.indexOf('else') !== -1 &&
+                   norm.indexOf('%') !== -1 &&
+                   norm.indexOf('num') !== -1 &&
+                   norm.indexOf('print') !== -1;
+          }
+        },
+        // -- Q19 | coding: if/elif/else --
+        {
+          type: 'coding',
+          question: 'Write Python code that sets <code>score = 75</code>, then uses <strong>if/elif/else</strong> to print <code>"Pass"</code> if score is &gt;= 50, and <code>"Fail"</code> otherwise.',
+          expectedCode: 'score = 75\nif score >= 50:\n    print("Pass")\nelse:\n    print("Fail")',
+          explanation: 'Set <code>score = 75</code>, then use <code>if score >= 50: print("Pass") else: print("Fail")</code> to check the condition.',
+          checkAnswer: function (code) {
+            var norm = code.replace(/\s+/g, '');
+            return norm.indexOf('if') !== -1 &&
+                   norm.indexOf('else') !== -1 &&
+                   norm.indexOf('score') !== -1 &&
+                   norm.indexOf('print') !== -1 &&
+                   norm.indexOf('50') !== -1;
+          }
+        },
+        // -- Q20 | coding: variables + arithmetic --
+        {
+          type: 'coding',
+          question: 'Write Python code that calculates and prints the <strong>area of a rectangle</strong> with <code>width = 5</code> and <code>height = 3</code>. Use the formula: <code>area = width * height</code>.',
+          expectedCode: 'width = 5\nheight = 3\narea = width * height\nprint(area)',
+          explanation: 'Assign <code>width = 5</code> and <code>height = 3</code>, then compute <code>area = width * height</code> = 15, and print it.',
+          checkAnswer: function (code) {
+            var norm = code.replace(/\s+/g, '');
+            return norm.indexOf('5') !== -1 &&
+                   norm.indexOf('3') !== -1 &&
+                   norm.indexOf('*') !== -1 &&
+                   norm.indexOf('print') !== -1;
           }
         }
       ];
@@ -1098,6 +1138,7 @@
             } else {
               results[i] = {
                 userCode: '',
+                expectedCode: q.expectedCode,
                 isCorrect: false,
                 question: q.question,
                 explanation: q.explanation,
@@ -1287,6 +1328,7 @@
 
           results[currentIndex] = {
             userCode: code,
+            expectedCode: q.expectedCode,
             isCorrect: isCorrect,
             question: q.question,
             explanation: q.explanation,
@@ -1397,19 +1439,27 @@
           html += '</div>';
 
           if (r.type === 'coding') {
-            // Coding answer review
-            html += '<div style="background:#1e293b;color:#e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:10px;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-all;">';
+            // Coding answer review — user's code
+            html += '<div style="margin-bottom:8px;">';
+            html += '  <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">Your Code</div>';
+            html += '  <div style="background:#1e293b;color:#e2e8f0;border-radius:8px;padding:12px 14px;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-all;border:1px solid #334155;">';
             if (r.userCode && r.userCode.length > 0) {
               html += escapeHtml(r.userCode);
             } else {
               html += '<span style="color:#94a3b8;font-style:italic;">No answer submitted</span>';
             }
+            html += '  </div>';
             html += '</div>';
-            html += '<div class="review-option is-correct-answer" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;font-size:13px;border:1.5px solid #bbf7d0;background:#f0fdf4;">';
-            html += '  <span style="color:#16a34a;font-weight:600;">Expected:</span>';
-            html += '  <span style="font-family:Consolas,Monaco,monospace;">See explanation below</span>';
-            html += '</div>';
-            html += '<p style="font-size:13px;color:#64748b;margin-top:8px;line-height:1.5;">' + r.explanation + '</p>';
+            // Expected code
+            if (r.expectedCode) {
+              html += '<div style="margin-bottom:8px;">';
+              html += '  <div style="font-size:11px;font-weight:600;color:#16a34a;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">✓ Expected Solution</div>';
+              html += '  <div style="background:#f0fdf4;color:#166534;border-radius:8px;padding:12px 14px;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-all;border:1px solid #bbf7d0;">';
+              html += escapeHtml(r.expectedCode);
+              html += '  </div>';
+              html += '</div>';
+            }
+            html += '<p style="font-size:13px;color:#64748b;margin-top:6px;line-height:1.5;">' + r.explanation + '</p>';
           } else {
             // MCQ review (same as before)
             html += '<ul class="review-options">';
