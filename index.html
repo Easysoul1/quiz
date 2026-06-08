@@ -771,7 +771,7 @@
     <!-- ===== HEADER ===== -->
     <div class="quiz-header">
       <h1>Python Basics Quiz</h1>
-      <p>Variables, arithmetic &amp; comparison operators, <code>if</code>/<code>elif</code>/<code>else</code>. 15-minute timer!</p>
+      <p>Variables (int, float, string), operations &amp; <code>if</code>/<code>else</code> statements. 10-minute timer!</p>
     </div>
 
     <!-- ===== PROGRESS ===== -->
@@ -839,188 +839,188 @@
 
       // ============================================================
       //  QUESTIONS  (20 total — 15 MCQ + 5 Coding)
-      //             Topics: variables, arithmetic ops, comparison ops,
-      //             if/elif/else statements
+      //             Topics: int, float, string, operations,
+      //             if/else (NO elif)
       // ============================================================
       var questions = [
-        // ========== VARIABLES (Q1-Q3) ==========
-        // -- Q1 | variables --
+        // ========== Q1-Q5: if/else with int & arithmetic ==========
+        // -- Q1 | basic if with int (> operator) --
         {
           type: 'mcq',
-          question: 'Which of the following is a <strong>valid</strong> variable name in Python?',
-          options: ['2ndValue', 'my-var', '_count', 'class'],
-          correct: 2,
-          explanation: 'Variable names cannot start with a digit (not <code>2ndValue</code>), cannot contain hyphens (not <code>my-var</code>), and cannot be reserved keywords (not <code>class</code>). <code>_count</code> is valid.'
+          question: 'What does this code print?<br><code>x = 10</code><br><code>if x &gt; 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("big")</code>',
+          options: ['big', '"big"', 'nothing', 'Error'],
+          correct: 0,
+          explanation: '<code>10 &gt; 5</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>big</code> (without quotes).'
         },
-        // -- Q2 | variables --
+        // -- Q2 | if/else with int (> operator) --
         {
           type: 'mcq',
-          question: 'What is the value of <code>x</code> after this code runs?<br><code>x = 8<br>x = x + 4</code>',
-          options: ['4', '8', '12', '84'],
-          correct: 2,
-          explanation: '<code>x</code> starts at 8. Then <code>x + 4 = 12</code> is computed and stored back into <code>x</code>.'
+          question: 'What does this code print?<br><code>num = 3</code><br><code>if num &gt; 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("high")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("low")</code>',
+          options: ['high', 'low', 'high followed by low', 'nothing'],
+          correct: 1,
+          explanation: '<code>3 &gt; 5</code> is <code>False</code>, so the <code>if</code> block is skipped and the <code>else</code> block runs, printing <code>low</code>.'
         },
-        // -- Q3 | variables --
+        // -- Q3 | if/else with arithmetic (+ operator) --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>a = 5</code><br><code>b = 3</code><br><code>print(a * b + 1)</code>',
-          options: ['8', '15', '16', '1531'],
-          correct: 2,
-          explanation: '<code>a * b = 15</code>, then <code>15 + 1 = 16</code>. Operator precedence: <code>*</code> before <code>+</code>.'
+          question: 'What does this code print?<br><code>x = 4</code><br><code>y = 3</code><br><code>if x * y &gt; 10:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("no")</code>',
+          options: ['yes', 'no', '12', 'Error'],
+          correct: 0,
+          explanation: '<code>x * y = 12</code>, and <code>12 &gt; 10</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>yes</code>.'
+        },
+        // -- Q4 | if/else with modulus (even/odd) --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 7</code><br><code>if x % 2 == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("even")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("odd")</code>',
+          options: ['even', 'odd', '7', 'Error'],
+          correct: 1,
+          explanation: '<code>7 % 2 = 1</code>, which is not 0, so the condition is <code>False</code>. The <code>else</code> block runs, printing <code>odd</code>.'
+        },
+        // -- Q5 | if/else with % (divisible by 3) --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 9</code><br><code>if x % 3 == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("divisible")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not divisible")</code>',
+          options: ['divisible', 'not divisible', '9', 'Error'],
+          correct: 0,
+          explanation: '<code>9 % 3 = 0</code>, so the condition is <code>True</code>. The <code>if</code> block runs and prints <code>divisible</code>.'
         },
 
-        // ========== ARITHMETIC OPERATIONS (Q4-Q7) ==========
-        // -- Q4 | addition --
+        // ========== Q6-Q10: if/else with strings & comparisons ==========
+        // -- Q6 | if/else with string equality (==) --
         {
           type: 'mcq',
-          question: 'What is the result of <code>12 + 7</code> in Python?',
-          options: ['5', '19', '127', '17'],
+          question: 'What does this code print?<br><code>name = "Anna"</code><br><code>if name == "Anna":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("hello")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("bye")</code>',
+          options: ['hello', 'bye', 'Anna', 'Error'],
+          correct: 0,
+          explanation: '<code>"Anna" == "Anna"</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>hello</code>.'
+        },
+        // -- Q7 | if/else with string inequality (!=) --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>color = "blue"</code><br><code>if color != "red":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not red")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("is red")</code>',
+          options: ['not red', 'is red', 'blue', 'Error'],
+          correct: 0,
+          explanation: '<code>"blue" != "red"</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>not red</code>.'
+        },
+        // -- Q8 | if/else with string concatenation (+) --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>a = "dog"</code><br><code>b = "cat"</code><br><code>if a + b == "dogcat":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("same")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("diff")</code>',
+          options: ['same', 'diff', 'dogcat', 'Error'],
+          correct: 0,
+          explanation: '<code>"dog" + "cat" = "dogcat"</code>, and <code>"dogcat" == "dogcat"</code> is <code>True</code>, so the <code>if</code> block prints <code>same</code>.'
+        },
+        // -- Q9 | if/else with <= comparison (int) --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>age = 18</code><br><code>if age &lt;= 17:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("minor")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("adult")</code>',
+          options: ['minor', 'adult', '18', 'Error'],
           correct: 1,
-          explanation: '<code>12 + 7 = 19</code>. The <code>+</code> operator performs addition on numbers.'
+          explanation: '<code>18 &lt;= 17</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>adult</code>.'
         },
-        // -- Q5 | integer division --
+        // -- Q10 | if/else with >= and subtraction --
         {
           type: 'mcq',
-          question: 'What is the result of <code>21 // 4</code> in Python (integer / floor division)?',
-          options: ['5', '5.25', '4', '1'],
+          question: 'What does this code print?<br><code>a = 15</code><br><code>b = 10</code><br><code>if a - b &gt;= 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("no")</code>',
+          options: ['yes', 'no', '5', 'Error'],
           correct: 0,
-          explanation: '<code>21 // 4</code> performs floor division. 21 ÷ 4 = 5.25, floored down to <strong>5</strong>.'
-        },
-        // -- Q6 | parentheses --
-        {
-          type: 'mcq',
-          question: 'What is the result of <code>2 * (5 + 3)</code> in Python?',
-          options: ['13', '10', '16', '30'],
-          correct: 2,
-          explanation: 'Parentheses come first: <code>(5 + 3) = 8</code>, then <code>2 * 8 = 16</code>.'
-        },
-        // -- Q7 | modulus --
-        {
-          type: 'mcq',
-          question: 'What is the result of <code>17 % 5</code> in Python (modulus / remainder)?',
-          options: ['2', '3', '3.4', '12'],
-          correct: 0,
-          explanation: '<code>17 ÷ 5 = 3</code> with <strong>remainder 2</strong>. The <code>%</code> operator returns the remainder, so <code>17 % 5 = 2</code>.'
+          explanation: '<code>a - b = 5</code>, and <code>5 &gt;= 5</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>yes</code>.'
         },
 
-        // ========== COMPARISON OPERATIONS (Q8-Q11) ==========
-        // -- Q8 | greater than --
+        // ========== Q11-Q15: if/else with float, division, variable update ==========
+        // -- Q11 | if/else with float comparison --
         {
           type: 'mcq',
-          question: 'What does <code>5 &gt; 3</code> evaluate to in Python?',
-          options: ['5', '3', 'True', 'False'],
-          correct: 2,
-          explanation: '<code>5 &gt; 3</code> is <code>True</code> because 5 is indeed greater than 3. Comparison operators return a boolean.'
+          question: 'What does this code print?<br><code>price = 4.5</code><br><code>if price &gt; 5.0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("expensive")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("cheap")</code>',
+          options: ['expensive', 'cheap', '4.5', 'Error'],
+          correct: 1,
+          explanation: '<code>4.5 &gt; 5.0</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>cheap</code>.'
         },
-        // -- Q9 | equal to --
+        // -- Q12 | if/else with float (>=) --
         {
           type: 'mcq',
-          question: 'What does <code>10 == 10</code> evaluate to in Python?',
-          options: ['True', 'False', '10', '20'],
+          question: 'What does this code print?<br><code>score = 8.5</code><br><code>if score &gt;= 6.0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("pass")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("fail")</code>',
+          options: ['pass', 'fail', '8.5', 'Error'],
           correct: 0,
-          explanation: '<code>10 == 10</code> is <code>True</code>. The <code>==</code> operator checks if two values are equal.'
+          explanation: '<code>8.5 &gt;= 6.0</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>pass</code>.'
         },
-        // -- Q10 | not equal --
+        // -- Q13 | if/else with // floor division --
         {
           type: 'mcq',
-          question: 'What does <code>7 != 7</code> evaluate to in Python?',
-          options: ['True', 'False', '7', '14'],
+          question: 'What does this code print?<br><code>n = 20</code><br><code>if n // 5 &gt; 4:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("a")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("b")</code>',
+          options: ['a', 'b', '4', 'Error'],
           correct: 1,
-          explanation: '<code>7 != 7</code> is <code>False</code> because 7 is equal to 7. The <code>!=</code> operator returns <code>True</code> only when values differ.'
+          explanation: '<code>20 // 5 = 4</code>, and <code>4 &gt; 4</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>b</code>.'
         },
-        // -- Q11 | less than or equal --
+        // -- Q14 | if/else updating variable in branches --
         {
           type: 'mcq',
-          question: 'What is the result of <code>4 &lt;= 3</code> in Python?',
-          options: ['True', 'False', '4', '3'],
+          question: 'What does this code print?<br><code>x = 20</code><br><code>if x &lt; 15:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;x = x + 5</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;x = x - 5</code><br><code>print(x)</code>',
+          options: ['15', '20', '25', 'Error'],
+          correct: 0,
+          explanation: '<code>20 &lt; 15</code> is <code>False</code>, so the <code>else</code> block runs: <code>x = 20 - 5 = 15</code>. Then <code>print(x)</code> outputs <code>15</code>.'
+        },
+        // -- Q15 | if/else with string == --
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>fruit = "apple"</code><br><code>if fruit == "banana":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yellow")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not banana")</code>',
+          options: ['yellow', 'not banana', 'apple', 'Error'],
           correct: 1,
-          explanation: '<code>4 &lt;= 3</code> is <code>False</code> because 4 is greater than 3, so it is not less than or equal.'
+          explanation: '<code>"apple" == "banana"</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>not banana</code>.'
         },
 
-        // ========== IF STATEMENTS (Q12-Q15) ==========
-        // -- Q12 | basic if --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>x = 5</code><br><code>if x &gt; 3:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code>',
-          options: ['"yes"', 'yes', 'nothing', 'Error'],
-          correct: 1,
-          explanation: '<code>5 &gt; 3</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>yes</code> (without quotes).'
-        },
-        // -- Q13 | if/else --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>x = 2</code><br><code>if x &gt; 3:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("a")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("b")</code>',
-          options: ['a', 'b', 'a followed by b', 'nothing'],
-          correct: 1,
-          explanation: '<code>2 &gt; 3</code> is <code>False</code>, so the <code>if</code> block is skipped and the <code>else</code> block runs, printing <code>b</code>.'
-        },
-        // -- Q14 | if/elif/else --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>x = 0</code><br><code>if x &gt; 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("pos")</code><br><code>elif x &lt; 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("neg")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("zero")</code>',
-          options: ['pos', 'neg', 'zero', 'nothing'],
-          correct: 2,
-          explanation: '<code>x = 0</code> is not &gt; 0 and not &lt; 0, so both <code>if</code> and <code>elif</code> are skipped, and the <code>else</code> prints <code>zero</code>.'
-        },
-        // -- Q15 | if with modulus --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>x = 10</code><br><code>if x % 2 == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("even")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("odd")</code>',
-          options: ['even', 'odd', '10', 'Error'],
-          correct: 0,
-          explanation: '<code>10 % 2 = 0</code>, so the condition <code>x % 2 == 0</code> is <code>True</code>. The <code>if</code> block runs, printing <code>even</code>.'
-        },
-
-        // ========== CODING QUESTIONS (Q16-Q20) ==========
-        // -- Q16 | coding: variables + arithmetic --
+        // ========== CODING QUESTIONS (Q16-Q20): if/else ==========
+        // -- Q16 | coding: if/else positive/negative --
         {
           type: 'coding',
-          question: 'Write Python code that assigns the value <strong>10</strong> to variable <code>x</code> and <strong>20</strong> to variable <code>y</code>, then <strong>prints the sum</strong> of <code>x</code> and <code>y</code>.',
-          expectedCode: 'x = 10\ny = 20\nprint(x + y)',
-          explanation: 'First assign <code>x = 10</code> and <code>y = 20</code>, then use <code>print(x + y)</code> to add and display the result.',
+          question: 'Write Python code that sets <code>num = -5</code>, then uses an <strong>if/else</strong> statement to print <code>"positive"</code> if <code>num &gt; 0</code>, and <code>"not positive"</code> otherwise.',
+          expectedCode: 'num = -5\nif num > 0:\n    print("positive")\nelse:\n    print("not positive")',
+          explanation: '<code>num = -5</code>. Since <code>-5 &gt; 0</code> is <code>False</code>, the <code>else</code> block prints <code>"not positive"</code>.',
           checkAnswer: function (code) {
             var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('10') !== -1 &&
-                   norm.indexOf('20') !== -1 &&
+            return norm.indexOf('if') !== -1 &&
+                   norm.indexOf('else') !== -1 &&
+                   norm.indexOf('num') !== -1 &&
                    norm.indexOf('print') !== -1 &&
-                   norm.indexOf('+') !== -1;
+                   norm.indexOf('>') !== -1;
           }
         },
-        // -- Q17 | coding: comparison --
+        // -- Q17 | coding: if/else even/odd --
         {
           type: 'coding',
-          question: 'Write Python code that uses a <strong>comparison operator</strong> to check if <strong>25 is greater than 15</strong> and <strong>prints the result</strong>.',
-          expectedCode: 'print(25 > 15)',
-          explanation: 'Use <code>print(25 > 15)</code>. The comparison <code>25 > 15</code> evaluates to <code>True</code>, and <code>print()</code> displays it.',
-          checkAnswer: function (code) {
-            var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('25') !== -1 &&
-                   norm.indexOf('15') !== -1 &&
-                   norm.indexOf('>') !== -1 &&
-                   norm.indexOf('print') !== -1;
-          }
-        },
-        // -- Q18 | coding: if/else --
-        {
-          type: 'coding',
-          question: 'Write Python code that sets <code>num = 7</code>, then uses an <strong>if/else</strong> statement to print <code>"even"</code> if the number is even and <code>"odd"</code> if it is odd. (Hint: use <code>%</code> to check even/odd.)',
-          expectedCode: 'num = 7\nif num % 2 == 0:\n    print("even")\nelse:\n    print("odd")',
-          explanation: 'Use <code>num % 2 == 0</code> to check even/odd. If the remainder when divided by 2 is 0, the number is even; otherwise it is odd.',
+          question: 'Write Python code that sets <code>value = 14</code>, then uses an <strong>if/else</strong> statement to print <code>"even"</code> if <code>value</code> is even and <code>"odd"</code> if odd. (Hint: use <code>%</code>.)',
+          expectedCode: 'value = 14\nif value % 2 == 0:\n    print("even")\nelse:\n    print("odd")',
+          explanation: '<code>14 % 2 = 0</code>, so the condition is <code>True</code> and the code prints <code>"even"</code>.',
           checkAnswer: function (code) {
             var norm = code.replace(/\s+/g, '');
             return norm.indexOf('if') !== -1 &&
                    norm.indexOf('else') !== -1 &&
                    norm.indexOf('%') !== -1 &&
-                   norm.indexOf('num') !== -1 &&
+                   norm.indexOf('value') !== -1 &&
                    norm.indexOf('print') !== -1;
           }
         },
-        // -- Q19 | coding: if/elif/else --
+        // -- Q18 | coding: if/else compare two ints --
         {
           type: 'coding',
-          question: 'Write Python code that sets <code>score = 75</code>, then uses <strong>if/elif/else</strong> to print <code>"Pass"</code> if score is &gt;= 50, and <code>"Fail"</code> otherwise.',
-          expectedCode: 'score = 75\nif score >= 50:\n    print("Pass")\nelse:\n    print("Fail")',
-          explanation: 'Set <code>score = 75</code>, then use <code>if score >= 50: print("Pass") else: print("Fail")</code> to check the condition.',
+          question: 'Write Python code that sets <code>a = 8</code> and <code>b = 12</code>, then uses an <strong>if/else</strong> statement to print <code>"bigger"</code> if <code>a</code> is greater than <code>b</code>, and <code>"smaller"</code> otherwise.',
+          expectedCode: 'a = 8\nb = 12\nif a > b:\n    print("bigger")\nelse:\n    print("smaller")',
+          explanation: '<code>8 &gt; 12</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>"smaller"</code>.',
+          checkAnswer: function (code) {
+            var norm = code.replace(/\s+/g, '');
+            return norm.indexOf('if') !== -1 &&
+                   norm.indexOf('else') !== -1 &&
+                   norm.indexOf('a') !== -1 &&
+                   norm.indexOf('b') !== -1 &&
+                   norm.indexOf('print') !== -1;
+          }
+        },
+        // -- Q19 | coding: if/else pass/fail with score --
+        {
+          type: 'coding',
+          question: 'Write Python code that sets <code>score = 40</code>, then uses an <strong>if/else</strong> statement to print <code>"pass"</code> if <code>score</code> is &gt;= 50, and <code>"fail"</code> otherwise.',
+          expectedCode: 'score = 40\nif score >= 50:\n    print("pass")\nelse:\n    print("fail")',
+          explanation: '<code>40 &gt;= 50</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>"fail"</code>.',
           checkAnswer: function (code) {
             var norm = code.replace(/\s+/g, '');
             return norm.indexOf('if') !== -1 &&
@@ -1030,18 +1030,19 @@
                    norm.indexOf('50') !== -1;
           }
         },
-        // -- Q20 | coding: variables + arithmetic --
+        // -- Q20 | coding: if/else with string equality --
         {
           type: 'coding',
-          question: 'Write Python code that calculates and prints the <strong>area of a rectangle</strong> with <code>width = 5</code> and <code>height = 3</code>. Use the formula: <code>area = width * height</code>.',
-          expectedCode: 'width = 5\nheight = 3\narea = width * height\nprint(area)',
-          explanation: 'Assign <code>width = 5</code> and <code>height = 3</code>, then compute <code>area = width * height</code> = 15, and print it.',
+          question: 'Write Python code that sets <code>password = "abc123"</code>, then uses an <strong>if/else</strong> statement to print <code>"access granted"</code> if <code>password</code> equals <code>"abc123"</code>, and <code>"access denied"</code> otherwise.',
+          expectedCode: 'password = "abc123"\nif password == "abc123":\n    print("access granted")\nelse:\n    print("access denied")',
+          explanation: 'The condition <code>password == "abc123"</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>"access granted"</code>.',
           checkAnswer: function (code) {
             var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('5') !== -1 &&
-                   norm.indexOf('3') !== -1 &&
-                   norm.indexOf('*') !== -1 &&
-                   norm.indexOf('print') !== -1;
+            return norm.indexOf('if') !== -1 &&
+                   norm.indexOf('else') !== -1 &&
+                   norm.indexOf('password') !== -1 &&
+                   norm.indexOf('print') !== -1 &&
+                   norm.indexOf('abc123') !== -1;
           }
         }
       ];
@@ -1059,7 +1060,7 @@
       var timeUp = false;
 
       // Timer constants
-      var TIME_LIMIT = 900; // 15 minutes in seconds
+      var TIME_LIMIT = 600; // 10 minutes in seconds
       var timeRemaining = TIME_LIMIT;
       var timerInterval = null;
 
