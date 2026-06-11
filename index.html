@@ -771,7 +771,7 @@
     <!-- ===== HEADER ===== -->
     <div class="quiz-header">
       <h1>Python Basics Quiz</h1>
-      <p>Variables (int, float, string), operations &amp; <code>if</code>/<code>else</code> statements. 10-minute timer!</p>
+      <p>Lists, tuples, <code>if</code>, <code>else</code> &amp; <code>elif</code>. 15-minute timer!</p>
     </div>
 
     <!-- ===== PROGRESS ===== -->
@@ -797,16 +797,6 @@
       </div>
 
       <ul class="options-list" id="options-list"></ul>
-
-      <!-- Code editor for coding questions (hidden by default) -->
-      <div class="code-editor-wrapper" id="code-editor-wrapper" style="display:none;">
-        <div class="code-editor-header">
-          <span class="code-label">Your Python Code</span>
-          <span class="lang-badge">Python</span>
-        </div>
-        <textarea class="code-editor" id="code-editor" placeholder="# Write your Python code here..." spellcheck="false"></textarea>
-        <div class="code-editor-saved-indicator" id="code-editor-saved">✓ Answer saved</div>
-      </div>
 
       <div class="feedback-message" id="feedback-message"></div>
 
@@ -843,207 +833,145 @@
       //             if/else (NO elif)
       // ============================================================
       var questions = [
-        // ========== Q1-Q5: if/else with int & arithmetic ==========
-        // -- Q1 | basic if with int (> operator) --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>x = 10</code><br><code>if x &gt; 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("big")</code>',
-          options: ['big', '"big"', 'nothing', 'Error'],
+          question: 'What does this code print?<br><code>fruits = ["apple", "banana", "cherry"]</code><br><code>if len(fruits) &gt; 2:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("many")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("few")</code>',
+          options: ['many', 'few', '3', 'Error'],
           correct: 0,
-          explanation: '<code>10 &gt; 5</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>big</code> (without quotes).'
+          explanation: '<code>len(fruits) = 3</code>, and <code>3 &gt; 2</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>many</code>.'
         },
-        // -- Q2 | if/else with int (> operator) --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>num = 3</code><br><code>if num &gt; 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("high")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("low")</code>',
-          options: ['high', 'low', 'high followed by low', 'nothing'],
+          question: 'Which of the following creates a tuple in Python?',
+          options: ['my_tuple = [1, 2, 3]', 'my_tuple = (1, 2, 3)', 'my_tuple = {1, 2, 3}', 'my_tuple = &lt;1, 2, 3&gt;'],
           correct: 1,
-          explanation: '<code>3 &gt; 5</code> is <code>False</code>, so the <code>if</code> block is skipped and the <code>else</code> block runs, printing <code>low</code>.'
+          explanation: 'A tuple is created using parentheses <code>()</code>. <code>[1, 2, 3]</code> is a list, <code>{1, 2, 3}</code> is a set.'
         },
-        // -- Q3 | if/else with arithmetic (+ operator) --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>x = 4</code><br><code>y = 3</code><br><code>if x * y &gt; 10:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("no")</code>',
-          options: ['yes', 'no', '12', 'Error'],
-          correct: 0,
-          explanation: '<code>x * y = 12</code>, and <code>12 &gt; 10</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>yes</code>.'
-        },
-        // -- Q4 | if/else with modulus (even/odd) --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>x = 7</code><br><code>if x % 2 == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("even")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("odd")</code>',
-          options: ['even', 'odd', '7', 'Error'],
+          question: 'What does this code print?<br><code>x = 7</code><br><code>if x &lt; 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("a")</code><br><code>elif x &lt; 10:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("b")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("c")</code>',
+          options: ['a', 'b', 'c', 'Error'],
           correct: 1,
-          explanation: '<code>7 % 2 = 1</code>, which is not 0, so the condition is <code>False</code>. The <code>else</code> block runs, printing <code>odd</code>.'
+          explanation: '<code>7 &lt; 5</code> is <code>False</code>, so Python checks the <code>elif</code>: <code>7 &lt; 10</code> is <code>True</code>, so it prints <code>b</code>. The <code>else</code> is skipped.'
         },
-        // -- Q5 | if/else with % (divisible by 3) --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>x = 9</code><br><code>if x % 3 == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("divisible")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not divisible")</code>',
-          options: ['divisible', 'not divisible', '9', 'Error'],
-          correct: 0,
-          explanation: '<code>9 % 3 = 0</code>, so the condition is <code>True</code>. The <code>if</code> block runs and prints <code>divisible</code>.'
-        },
-
-        // ========== Q6-Q10: if/else with strings & comparisons ==========
-        // -- Q6 | if/else with string equality (==) --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>name = "Anna"</code><br><code>if name == "Anna":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("hello")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("bye")</code>',
-          options: ['hello', 'bye', 'Anna', 'Error'],
-          correct: 0,
-          explanation: '<code>"Anna" == "Anna"</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>hello</code>.'
-        },
-        // -- Q7 | if/else with string inequality (!=) --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>color = "blue"</code><br><code>if color != "red":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not red")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("is red")</code>',
-          options: ['not red', 'is red', 'blue', 'Error'],
-          correct: 0,
-          explanation: '<code>"blue" != "red"</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>not red</code>.'
-        },
-        // -- Q8 | if/else with string concatenation (+) --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>a = "dog"</code><br><code>b = "cat"</code><br><code>if a + b == "dogcat":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("same")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("diff")</code>',
-          options: ['same', 'diff', 'dogcat', 'Error'],
-          correct: 0,
-          explanation: '<code>"dog" + "cat" = "dogcat"</code>, and <code>"dogcat" == "dogcat"</code> is <code>True</code>, so the <code>if</code> block prints <code>same</code>.'
-        },
-        // -- Q9 | if/else with <= comparison (int) --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>age = 18</code><br><code>if age &lt;= 17:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("minor")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("adult")</code>',
-          options: ['minor', 'adult', '18', 'Error'],
+          question: 'What does this code print?<br><code>nums = [10, 20, 30, 40]</code><br><code>print(nums[1])</code>',
+          options: ['10', '20', '30', 'Error'],
           correct: 1,
-          explanation: '<code>18 &lt;= 17</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>adult</code>.'
+          explanation: 'List indexing starts at 0. <code>nums[0] = 10</code>, <code>nums[1] = 20</code>.'
         },
-        // -- Q10 | if/else with >= and subtraction --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>a = 15</code><br><code>b = 10</code><br><code>if a - b &gt;= 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("no")</code>',
-          options: ['yes', 'no', '5', 'Error'],
-          correct: 0,
-          explanation: '<code>a - b = 5</code>, and <code>5 &gt;= 5</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>yes</code>.'
-        },
-
-        // ========== Q11-Q15: if/else with float, division, variable update ==========
-        // -- Q11 | if/else with float comparison --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>price = 4.5</code><br><code>if price &gt; 5.0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("expensive")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("cheap")</code>',
-          options: ['expensive', 'cheap', '4.5', 'Error'],
+          question: 'What does this code print?<br><code>items = []</code><br><code>if items:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not empty")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("empty")</code>',
+          options: ['not empty', 'empty', '[]', 'Error'],
           correct: 1,
-          explanation: '<code>4.5 &gt; 5.0</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>cheap</code>.'
+          explanation: 'An empty list <code>[]</code> is <code>False</code> in a boolean context, so the <code>else</code> block runs and prints <code>empty</code>.'
         },
-        // -- Q12 | if/else with float (>=) --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>score = 8.5</code><br><code>if score &gt;= 6.0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("pass")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("fail")</code>',
-          options: ['pass', 'fail', '8.5', 'Error'],
-          correct: 0,
-          explanation: '<code>8.5 &gt;= 6.0</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>pass</code>.'
+          question: 'What happens if you try to change a tuple after creating it?<br><br><code>t = (1, 2, 3)</code><br><code>t[1] = 99</code>',
+          options: ['The tuple becomes (1, 99, 3)', 'Python ignores the line', 'Python raises a TypeError', 'The tuple becomes (99, 2, 3)'],
+          correct: 2,
+          explanation: 'Tuples are <strong>immutable</strong>. You cannot change their elements after creation, so Python raises a <code>TypeError</code>.'
         },
-        // -- Q13 | if/else with // floor division --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>n = 20</code><br><code>if n // 5 &gt; 4:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("a")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("b")</code>',
-          options: ['a', 'b', '4', 'Error'],
+          question: 'What does this code print?<br><code>score = 85</code><br><code>if score &gt;= 90:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("A")</code><br><code>elif score &gt;= 80:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("B")</code><br><code>elif score &gt;= 70:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("C")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("F")</code>',
+          options: ['A', 'B', 'C', 'F'],
           correct: 1,
-          explanation: '<code>20 // 5 = 4</code>, and <code>4 &gt; 4</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>b</code>.'
+          explanation: '<code>85 &gt;= 90</code> is <code>False</code>, then <code>85 &gt;= 80</code> is <code>True</code>, so it prints <code>B</code>. The remaining <code>elif</code> and <code>else</code> are skipped.'
         },
-        // -- Q14 | if/else updating variable in branches --
         {
           type: 'mcq',
-          question: 'What does this code print?<br><code>x = 20</code><br><code>if x &lt; 15:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;x = x + 5</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;x = x - 5</code><br><code>print(x)</code>',
-          options: ['15', '20', '25', 'Error'],
-          correct: 0,
-          explanation: '<code>20 &lt; 15</code> is <code>False</code>, so the <code>else</code> block runs: <code>x = 20 - 5 = 15</code>. Then <code>print(x)</code> outputs <code>15</code>.'
-        },
-        // -- Q15 | if/else with string == --
-        {
-          type: 'mcq',
-          question: 'What does this code print?<br><code>fruit = "apple"</code><br><code>if fruit == "banana":</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yellow")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("not banana")</code>',
-          options: ['yellow', 'not banana', 'apple', 'Error'],
+          question: 'What does this code print?<br><code>colors = ["red", "green"]</code><br><code>colors.append("blue")</code><br><code>print(len(colors))</code>',
+          options: ['2', '3', '4', 'Error'],
           correct: 1,
-          explanation: '<code>"apple" == "banana"</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>not banana</code>.'
+          explanation: '<code>append</code> adds an element to the end of the list. After <code>append("blue")</code>, the list has 3 elements, so <code>len(colors)</code> returns <code>3</code>.'
         },
-
-        // ========== CODING QUESTIONS (Q16-Q20): if/else ==========
-        // -- Q16 | coding: if/else positive/negative --
         {
-          type: 'coding',
-          question: 'Write Python code that sets <code>num = -5</code>, then uses an <strong>if/else</strong> statement to print <code>"positive"</code> if <code>num &gt; 0</code>, and <code>"not positive"</code> otherwise.',
-          expectedCode: 'num = -5\nif num > 0:\n    print("positive")\nelse:\n    print("not positive")',
-          explanation: '<code>num = -5</code>. Since <code>-5 &gt; 0</code> is <code>False</code>, the <code>else</code> block prints <code>"not positive"</code>.',
-          checkAnswer: function (code) {
-            var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('if') !== -1 &&
-                   norm.indexOf('else') !== -1 &&
-                   norm.indexOf('num') !== -1 &&
-                   norm.indexOf('print') !== -1 &&
-                   norm.indexOf('>') !== -1;
-          }
+          type: 'mcq',
+          question: 'What does this code print?<br><code>t = (5, 10, 15, 20)</code><br><code>print(t[2])</code>',
+          options: ['5', '10', '15', '20'],
+          correct: 2,
+          explanation: 'Tuple indexing works just like list indexing — it starts at 0. <code>t[0] = 5</code>, <code>t[1] = 10</code>, <code>t[2] = 15</code>.'
         },
-        // -- Q17 | coding: if/else even/odd --
         {
-          type: 'coding',
-          question: 'Write Python code that sets <code>value = 14</code>, then uses an <strong>if/else</strong> statement to print <code>"even"</code> if <code>value</code> is even and <code>"odd"</code> if odd. (Hint: use <code>%</code>.)',
-          expectedCode: 'value = 14\nif value % 2 == 0:\n    print("even")\nelse:\n    print("odd")',
-          explanation: '<code>14 % 2 = 0</code>, so the condition is <code>True</code> and the code prints <code>"even"</code>.',
-          checkAnswer: function (code) {
-            var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('if') !== -1 &&
-                   norm.indexOf('else') !== -1 &&
-                   norm.indexOf('%') !== -1 &&
-                   norm.indexOf('value') !== -1 &&
-                   norm.indexOf('print') !== -1;
-          }
+          type: 'mcq',
+          question: 'What does this code print?<br><code>fruits = ["apple", "banana", "cherry"]</code><br><code>if "mango" in fruits:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("no")</code>',
+          options: ['yes', 'no', 'mango', 'Error'],
+          correct: 1,
+          explanation: '<code>"mango"</code> is not in the <code>fruits</code> list, so the condition is <code>False</code> and the <code>else</code> block prints <code>no</code>.'
         },
-        // -- Q18 | coding: if/else compare two ints --
         {
-          type: 'coding',
-          question: 'Write Python code that sets <code>a = 8</code> and <code>b = 12</code>, then uses an <strong>if/else</strong> statement to print <code>"bigger"</code> if <code>a</code> is greater than <code>b</code>, and <code>"smaller"</code> otherwise.',
-          expectedCode: 'a = 8\nb = 12\nif a > b:\n    print("bigger")\nelse:\n    print("smaller")',
-          explanation: '<code>8 &gt; 12</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>"smaller"</code>.',
-          checkAnswer: function (code) {
-            var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('if') !== -1 &&
-                   norm.indexOf('else') !== -1 &&
-                   norm.indexOf('a') !== -1 &&
-                   norm.indexOf('b') !== -1 &&
-                   norm.indexOf('print') !== -1;
-          }
+          type: 'mcq',
+          question: 'Which of the following is <strong>NOT</strong> a difference between a list and a tuple in Python?',
+          options: ['Lists use [] and tuples use ()', 'Lists are mutable, tuples are immutable', 'Tuples can only store numbers', 'Tuples are faster than lists in some cases'],
+          correct: 2,
+          explanation: 'Tuples can store any data type (numbers, strings, etc.), just like lists. The main differences are the syntax (<code>[]</code> vs <code>()</code>) and mutability.'
         },
-        // -- Q19 | coding: if/else pass/fail with score --
         {
-          type: 'coding',
-          question: 'Write Python code that sets <code>score = 40</code>, then uses an <strong>if/else</strong> statement to print <code>"pass"</code> if <code>score</code> is &gt;= 50, and <code>"fail"</code> otherwise.',
-          expectedCode: 'score = 40\nif score >= 50:\n    print("pass")\nelse:\n    print("fail")',
-          explanation: '<code>40 &gt;= 50</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>"fail"</code>.',
-          checkAnswer: function (code) {
-            var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('if') !== -1 &&
-                   norm.indexOf('else') !== -1 &&
-                   norm.indexOf('score') !== -1 &&
-                   norm.indexOf('print') !== -1 &&
-                   norm.indexOf('50') !== -1;
-          }
+          type: 'mcq',
+          question: 'What does this code print?<br><code>num = 0</code><br><code>if num &gt; 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("positive")</code><br><code>elif num &lt; 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("negative")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("zero")</code>',
+          options: ['positive', 'negative', 'zero', 'Error'],
+          correct: 2,
+          explanation: '<code>0 &gt; 0</code> is <code>False</code> and <code>0 &lt; 0</code> is <code>False</code>, so the <code>else</code> block runs and prints <code>zero</code>.'
         },
-        // -- Q20 | coding: if/else with string equality --
         {
-          type: 'coding',
-          question: 'Write Python code that sets <code>password = "abc123"</code>, then uses an <strong>if/else</strong> statement to print <code>"access granted"</code> if <code>password</code> equals <code>"abc123"</code>, and <code>"access denied"</code> otherwise.',
-          expectedCode: 'password = "abc123"\nif password == "abc123":\n    print("access granted")\nelse:\n    print("access denied")',
-          explanation: 'The condition <code>password == "abc123"</code> is <code>True</code>, so the <code>if</code> block runs and prints <code>"access granted"</code>.',
-          checkAnswer: function (code) {
-            var norm = code.replace(/\s+/g, '');
-            return norm.indexOf('if') !== -1 &&
-                   norm.indexOf('else') !== -1 &&
-                   norm.indexOf('password') !== -1 &&
-                   norm.indexOf('print') !== -1 &&
-                   norm.indexOf('abc123') !== -1;
-          }
+          type: 'mcq',
+          question: 'What does this code print?<br><code>nums = [2, 4, 6, 8, 10]</code><br><code>print(nums[-1])</code>',
+          options: ['2', '4', '8', '10'],
+          correct: 3,
+          explanation: 'Negative indexing counts from the end of the list. <code>nums[-1]</code> is the last element, <code>10</code>.'
+        },
+        {
+          type: 'mcq',
+          question: 'What is the correct way to create a tuple with a single element <code>5</code>?',
+          options: ['t = (5)', 't = (5,)', 't = [5]', 't = {5}'],
+          correct: 1,
+          explanation: 'To create a tuple with one element, you need a trailing comma: <code>(5,)</code>. Without the comma, <code>(5)</code> is just the integer <code>5</code> in parentheses.'
+        },
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>names = ["Alice"]</code><br><code>if len(names) == 0:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("empty")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print(names[0])</code>',
+          options: ['empty', 'Alice', '["Alice"]', 'Error'],
+          correct: 1,
+          explanation: '<code>len(names) = 1</code>, which is not <code>0</code>, so the <code>else</code> block runs and prints <code>Alice</code> (the element at index 0).'
+        },
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>nums = [1, 2, 3, 4, 5]</code><br><code>print(nums[1:4])</code>',
+          options: ['[1, 2, 3]', '[2, 3, 4]', '[2, 3, 4, 5]', '[1, 2, 3, 4]'],
+          correct: 1,
+          explanation: 'List slicing <code>[start:end]</code> includes elements from index <code>start</code> up to (but not including) index <code>end</code>. <code>nums[1:4]</code> gives indices 1, 2, 3 → <code>[2, 3, 4]</code>.'
+        },
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>x = 8</code><br><code>if x &gt; 10 or x &lt; 5:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("edge")</code><br><code>elif x &gt; 5 and x &lt; 10:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("middle")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("exact")</code>',
+          options: ['edge', 'middle', 'exact', 'Error'],
+          correct: 1,
+          explanation: '<code>8 &gt; 10 or 8 &lt; 5</code> is <code>False</code>. Then <code>8 &gt; 5 and 8 &lt; 10</code> is <code>True</code>, so it prints <code>middle</code>.'
+        },
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>t1 = (1, 2)</code><br><code>t2 = (3, 4)</code><br><code>print(t1 + t2)</code>',
+          options: ['(1, 2, 3, 4)', '(4, 6)', 'Error', '(1, 2, 3, 4,)'],
+          correct: 0,
+          explanation: 'The <code>+</code> operator concatenates two tuples, producing a new tuple <code>(1, 2, 3, 4)</code>.'
+        },
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>nums = [5, 10, 15]</code><br><code>if nums[0] + nums[2] == 20:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("yes")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("no")</code>',
+          options: ['yes', 'no', '20', 'Error'],
+          correct: 0,
+          explanation: '<code>nums[0] = 5</code>, <code>nums[2] = 15</code>. <code>5 + 15 = 20</code>, and <code>20 == 20</code> is <code>True</code>, so it prints <code>yes</code>.'
+        },
+        {
+          type: 'mcq',
+          question: 'What does this code print?<br><code>temp = 30</code><br><code>if temp &gt;= 30:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("hot")</code><br><code>elif temp &gt;= 20:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("warm")</code><br><code>elif temp &gt;= 10:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("cool")</code><br><code>else:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("cold")</code>',
+          options: ['hot', 'warm', 'cool', 'cold'],
+          correct: 0,
+          explanation: '<code>30 &gt;= 30</code> is <code>True</code>, so the first <code>if</code> block runs and Python prints <code>hot</code>. The <code>elif</code> and <code>else</code> branches are skipped.'
         }
       ];
 
@@ -1060,7 +988,7 @@
       var timeUp = false;
 
       // Timer constants
-      var TIME_LIMIT = 600; // 10 minutes in seconds
+      var TIME_LIMIT = 900; // 15 minutes in seconds
       var timeRemaining = TIME_LIMIT;
       var timerInterval = null;
 
@@ -1073,9 +1001,6 @@
       var questionNumberEl = document.getElementById('question-number');
       var questionTextEl = document.getElementById('question-text');
       var optionsListEl = document.getElementById('options-list');
-      var codeEditorWrapper = document.getElementById('code-editor-wrapper');
-      var codeEditor = document.getElementById('code-editor');
-      var codeEditorSaved = document.getElementById('code-editor-saved');
       var feedbackMessageEl = document.getElementById('feedback-message');
       var errorMessageEl = document.getElementById('error-message');
       var nextBtn = document.getElementById('next-btn');
@@ -1175,26 +1100,15 @@
         for (var i = 0; i < totalQuestions; i++) {
           if (results[i] === null) {
             var q = questions[i];
-            if (q.type === 'mcq') {
-              results[i] = {
-                selectedIndex: -1,
-                correctIndex: q.correct,
-                isCorrect: false,
-                question: q.question,
-                options: q.options.slice(),
-                explanation: q.explanation,
-                type: 'mcq'
-              };
-            } else {
-              results[i] = {
-                userCode: '',
-                expectedCode: q.expectedCode,
-                isCorrect: false,
-                question: q.question,
-                explanation: q.explanation,
-                type: 'coding'
-              };
-            }
+            results[i] = {
+              selectedIndex: -1,
+              correctIndex: q.correct,
+              isCorrect: false,
+              question: q.question,
+              options: q.options.slice(),
+              explanation: q.explanation,
+              type: 'mcq'
+            };
           }
         }
 
@@ -1227,50 +1141,23 @@
         errorMessageEl.classList.remove('show');
         answered = false;
 
-        if (q.type === 'coding') {
-          // --- CODING QUESTION ---
-          optionsListEl.innerHTML = '';
-          optionsListEl.style.display = 'none';
-          codeEditorWrapper.style.display = 'block';
-          codeEditor.disabled = false;
-          codeEditor.value = '';
-          codeEditor.className = 'code-editor';
-          codeEditorSaved.className = 'code-editor-saved-indicator';
+        optionsListEl.innerHTML = '';
 
-          // Listen for input
-          codeEditor.oninput = function () {
-            if (codeEditor.value.trim().length > 0) {
-              answered = true;
-              errorMessageEl.classList.remove('show');
-            } else {
-              answered = false;
-            }
-          };
+        q.options.forEach(function (opt, idx) {
+          var li = document.createElement('li');
+          var btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.setAttribute('data-index', idx);
+          btn.innerHTML =
+            '<span class="option-letter">' + LABELS[idx] + '</span>' +
+            '<span class="option-text">' + opt + '</span>';
+          btn.addEventListener('click', onOptionClick);
+          li.appendChild(btn);
+          optionsListEl.appendChild(li);
+        });
 
-          nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
-          nextBtn.disabled = false;
-        } else {
-          // --- MCQ QUESTION ---
-          codeEditorWrapper.style.display = 'none';
-          optionsListEl.style.display = '';
-          optionsListEl.innerHTML = '';
-
-          q.options.forEach(function (opt, idx) {
-            var li = document.createElement('li');
-            var btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.setAttribute('data-index', idx);
-            btn.innerHTML =
-              '<span class="option-letter">' + LABELS[idx] + '</span>' +
-              '<span class="option-text">' + opt + '</span>';
-            btn.addEventListener('click', onOptionClick);
-            li.appendChild(btn);
-            optionsListEl.appendChild(li);
-          });
-
-          nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
-          nextBtn.disabled = false;
-        }
+        nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
+        nextBtn.disabled = false;
 
         updateProgress();
       }
@@ -1284,51 +1171,32 @@
 
         answered = true;
 
-        if (r.type === 'mcq') {
-          var allOptions = optionsListEl.querySelectorAll('.option-btn');
-          allOptions.forEach(function (opt) { opt.classList.add('disabled'); });
+        var allOptions = optionsListEl.querySelectorAll('.option-btn');
+        allOptions.forEach(function (opt) { opt.classList.add('disabled'); });
 
-          if (r.selectedIndex >= 0) {
-            allOptions[r.selectedIndex].classList.add('selected');
-            if (!r.isCorrect) allOptions[r.selectedIndex].classList.add('incorrect');
+        if (r.selectedIndex >= 0) {
+          allOptions[r.selectedIndex].classList.add('selected');
+          if (!r.isCorrect) allOptions[r.selectedIndex].classList.add('incorrect');
+        }
+        allOptions[r.correctIndex].classList.add('correct');
+
+        allOptions.forEach(function (opt, i) {
+          var iconSpan = document.createElement('span');
+          iconSpan.className = 'feedback-icon';
+          if (i === r.correctIndex) iconSpan.textContent = '\u2713';
+          else if (i === r.selectedIndex && !r.isCorrect) iconSpan.textContent = '\u2717';
+          if (iconSpan.textContent) {
+            opt.appendChild(iconSpan);
           }
-          allOptions[r.correctIndex].classList.add('correct');
+        });
 
-          // Re-apply feedback icons
-          allOptions.forEach(function (opt, i) {
-            var iconSpan = document.createElement('span');
-            iconSpan.className = 'feedback-icon';
-            if (i === r.correctIndex) iconSpan.textContent = '\u2713';
-            else if (i === r.selectedIndex && !r.isCorrect) iconSpan.textContent = '\u2717';
-            if (iconSpan.textContent) {
-              opt.appendChild(iconSpan);
-            }
-          });
-
-          // Show feedback message
-          feedbackMessageEl.className = 'feedback-message show';
-          if (r.isCorrect) {
-            feedbackMessageEl.classList.add('is-correct');
-            feedbackMessageEl.innerHTML = '<strong>\u2713 Correct!</strong> ' + r.explanation;
-          } else {
-            feedbackMessageEl.classList.add('is-incorrect');
-            feedbackMessageEl.innerHTML = '<strong>\u2717 Not quite.</strong> ' + r.explanation;
-          }
+        feedbackMessageEl.className = 'feedback-message show';
+        if (r.isCorrect) {
+          feedbackMessageEl.classList.add('is-correct');
+          feedbackMessageEl.innerHTML = '<strong>\u2713 Correct!</strong> ' + r.explanation;
         } else {
-          // Coding question
-          codeEditor.value = r.userCode || '';
-          codeEditor.disabled = true;
-          codeEditor.classList.add('saved');
-          codeEditorSaved.className = 'code-editor-saved-indicator show';
-
-          feedbackMessageEl.className = 'feedback-message show';
-          if (r.isCorrect) {
-            feedbackMessageEl.classList.add('is-correct');
-            feedbackMessageEl.innerHTML = '<strong>\u2713 Correct!</strong> ' + r.explanation;
-          } else {
-            feedbackMessageEl.classList.add('is-incorrect');
-            feedbackMessageEl.innerHTML = '<strong>\u2717 Not quite.</strong> ' + r.explanation;
-          }
+          feedbackMessageEl.classList.add('is-incorrect');
+          feedbackMessageEl.innerHTML = '<strong>\u2717 Not quite.</strong> ' + r.explanation;
         }
       }
 
@@ -1407,7 +1275,6 @@
       //  EVENTS  —  NEXT / SUBMIT
       // ============================================================
       function onNextClick() {
-        // If already answered, advance to next / show results
         if (answered) {
           errorMessageEl.classList.remove('show');
           if (currentIndex === totalQuestions - 1) {
@@ -1420,55 +1287,6 @@
           return;
         }
 
-        var q = questions[currentIndex];
-
-        if (q.type === 'coding') {
-          var code = codeEditor.value.replace(/\s+$/, '');
-          if (code.length === 0) {
-            errorMessageEl.textContent = 'Please write your Python code before continuing.';
-            errorMessageEl.classList.add('show');
-            return;
-          }
-          errorMessageEl.classList.remove('show');
-
-          // Grade coding answer
-          var isCorrect = q.checkAnswer(code);
-
-          results[currentIndex] = {
-            userCode: code,
-            expectedCode: q.expectedCode,
-            isCorrect: isCorrect,
-            question: q.question,
-            explanation: q.explanation,
-            type: 'coding'
-          };
-
-          if (isCorrect) score++;
-
-          // Mark answered and lock editor
-          answered = true;
-          codeEditor.disabled = true;
-          codeEditor.classList.add('saved');
-          codeEditorSaved.className = 'code-editor-saved-indicator show';
-
-          // Show feedback
-          feedbackMessageEl.className = 'feedback-message show';
-          if (isCorrect) {
-            feedbackMessageEl.classList.add('is-correct');
-            feedbackMessageEl.innerHTML = '<strong>✓ Correct!</strong> ' + q.explanation;
-          } else {
-            feedbackMessageEl.classList.add('is-incorrect');
-            feedbackMessageEl.innerHTML = '<strong>✗ Not quite.</strong> ' + q.explanation;
-          }
-
-          // Change button text to indicate next action
-          nextBtn.textContent = (currentIndex === totalQuestions - 1) ? 'See Results' : 'Next Question';
-          updateProgress();
-          saveState();
-          return;
-        }
-
-        // MCQ: not answered yet
         if (!answered) {
           errorMessageEl.textContent = 'Please select an answer before continuing.';
           errorMessageEl.classList.add('show');
@@ -1538,9 +1356,7 @@
           var isCorrect = r.isCorrect;
           var statusClass = isCorrect ? 'correct-badge' : 'incorrect-badge';
           var statusText = isCorrect ? '✓ Correct' : '✗ Incorrect';
-          var unanswered = (r.type === 'mcq' && r.selectedIndex === -1) ||
-                           (r.type === 'coding' && r.userCode === '');
-          if (unanswered) statusText = '⏱ Unanswered';
+          if (r.selectedIndex === -1) statusText = '⏱ Unanswered';
 
           html += '<div class="review-card">';
           html += '<div class="review-q-header">';
@@ -1548,31 +1364,7 @@
           html += '  <span class="review-status-badge ' + statusClass + '">' + statusText + '</span>';
           html += '</div>';
 
-          if (r.type === 'coding') {
-            // Coding answer review — user's code
-            html += '<div style="margin-bottom:8px;">';
-            html += '  <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">Your Code</div>';
-            html += '  <div style="background:#1e293b;color:#e2e8f0;border-radius:8px;padding:12px 14px;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-all;border:1px solid #334155;">';
-            if (r.userCode && r.userCode.length > 0) {
-              html += escapeHtml(r.userCode);
-            } else {
-              html += '<span style="color:#94a3b8;font-style:italic;">No answer submitted</span>';
-            }
-            html += '  </div>';
-            html += '</div>';
-            // Expected code
-            if (r.expectedCode) {
-              html += '<div style="margin-bottom:8px;">';
-              html += '  <div style="font-size:11px;font-weight:600;color:#16a34a;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">✓ Expected Solution</div>';
-              html += '  <div style="background:#f0fdf4;color:#166534;border-radius:8px;padding:12px 14px;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-all;border:1px solid #bbf7d0;">';
-              html += escapeHtml(r.expectedCode);
-              html += '  </div>';
-              html += '</div>';
-            }
-            html += '<p style="font-size:13px;color:#64748b;margin-top:6px;line-height:1.5;">' + r.explanation + '</p>';
-          } else {
-            // MCQ review (same as before)
-            html += '<ul class="review-options">';
+          html += '<ul class="review-options">';
             for (var j = 0; j < r.options.length; j++) {
               var opt = r.options[j];
               var optClass = '';
@@ -1597,7 +1389,6 @@
             }
             html += '</ul>';
             html += '<p style="font-size:13px;color:#64748b;margin-top:8px;line-height:1.5;">' + r.explanation + '</p>';
-          }
 
           html += '</div>';
         }
@@ -1631,7 +1422,6 @@
         reviewList.innerHTML = '';
         questionScreen.classList.remove('hidden');
         errorMessageEl.classList.remove('show');
-        codeEditorWrapper.style.display = 'none';
         optionsListEl.style.display = '';
 
         shuffleArray(questions);
@@ -1660,13 +1450,10 @@
           }
         }
 
-        // Enter or Space for next (but not when typing in code editor)
         if (e.key === 'Enter' || e.key === ' ') {
           if (e.target.tagName !== 'BUTTON' || !e.target.classList.contains('option-btn')) {
-            if (e.target !== codeEditor) {
-              e.preventDefault();
-              nextBtn.click();
-            }
+            e.preventDefault();
+            nextBtn.click();
           }
         }
       }
